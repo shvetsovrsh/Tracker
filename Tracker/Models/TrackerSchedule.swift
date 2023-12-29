@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct TrackerSchedule {
+public struct TrackerSchedule {
     let frequency: TrackerFrequency
     let daysOfWeek: [DayOfWeek]
     let specificDays: [Date]
@@ -30,4 +30,3 @@ enum DayOfWeek: String {
     case saturday = "Saturday"
     case sunday = "Sunday"
 }
-

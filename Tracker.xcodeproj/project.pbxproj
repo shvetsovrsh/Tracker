@@ -10,25 +10,49 @@
 		36D7D1E99B347515D60BAEF9 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D078E1C9A964CE2BCE69 /* Tracker.swift */; };
 		36D7D33449841B55732278DA /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DBC84F9E4E7366144444 /* TrackerCategory.swift */; };
 		36D7D34032BA6173129AB428 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36D7DFDD3A1164A08DBF1DA7 /* Assets.xcassets */; };
+		36D7D34E4FCBB3A91704C9A1 /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D08DF0CCF0970918E1B5 /* TrackerCell.swift */; };
 		36D7D38F0028420C0CEFF0AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D66179F0E15407E1A33D /* SceneDelegate.swift */; };
 		36D7D4B58EFBB8682E672E42 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DDBA0FC76741FB6C99C5 /* ViewController.swift */; };
 		36D7D4FF0FAFB4EA7130811F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36D7D855178AE89EC5BC54B9 /* Main.storyboard */; };
+		36D7D5DC6139856FCC07664D /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D448243739A1E7DCBE40 /* InsetTextField.swift */; };
+		36D7D6D87436DD70831F4810 /* EventCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D655B2F1851AA214F655 /* EventCreationViewController.swift */; };
+		36D7D795CB7DD4E053E1E9CB /* HabitCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D5B12977D139AA95F597 /* HabitCreationViewController.swift */; };
 		36D7D7AB414BAC1468854E39 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D3717EF6933E55CAB799 /* TrackerRecord.swift */; };
 		36D7D89A21FD9EA8107CF3D7 /* TrackerSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DC5352C350B2A6BA8383 /* TrackerSchedule.swift */; };
+		36D7D8D28339F893D12C22AD /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D697E5611734225EB8AD /* MockData.swift */; };
+		36D7D9023D1A6699D8FCEC04 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D1C8C6FE023882218AF5 /* ScheduleViewController.swift */; };
 		36D7D9369210DD881ADA87DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36D7DD17691AF590B191B58B /* LaunchScreen.storyboard */; };
 		36D7D98B68C2537A72922AB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D982EED591A9487BCF10 /* AppDelegate.swift */; };
+		36D7DB9C86ABE52BE3B26098 /* HeaderSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D044F4FAFDE5BB42D580 /* HeaderSectionView.swift */; };
+		36D7DBB2F99A4B4D1FC4CCDC /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DC131713656A6F6C306E /* PlaceholderView.swift */; };
+		36D7DBFC0B8530C5BE471ABB /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D7AC48022D6A50331718 /* TabBarViewController.swift */; };
+		36D7DC52000F90B44E940F05 /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DB78EF8C1D7414DF6640 /* StatisticViewController.swift */; };
+		36D7DC8F2F09DEDE9C612696 /* TrackerCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D5333EDB15A9B2ED42F7 /* TrackerCreationViewController.swift */; };
+		36D7DE736CE57C7B6BF786A8 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DADC2999007B7CF9C65A /* CustomTableViewCell.swift */; };
 		36D7DE8D01840074B9F6BA45 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DC7C2DCB1EA15EC0FDD0 /* TrackersViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		36D7D044F4FAFDE5BB42D580 /* HeaderSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderSectionView.swift; sourceTree = "<group>"; };
 		36D7D078E1C9A964CE2BCE69 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		36D7D08DF0CCF0970918E1B5 /* TrackerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
+		36D7D1C8C6FE023882218AF5 /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		36D7D3717EF6933E55CAB799 /* TrackerRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
+		36D7D448243739A1E7DCBE40 /* InsetTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
 		36D7D502A44C496310275ECE /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		36D7D5333EDB15A9B2ED42F7 /* TrackerCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerCreationViewController.swift; sourceTree = "<group>"; };
+		36D7D5B12977D139AA95F597 /* HabitCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitCreationViewController.swift; sourceTree = "<group>"; };
+		36D7D655B2F1851AA214F655 /* EventCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCreationViewController.swift; sourceTree = "<group>"; };
 		36D7D66179F0E15407E1A33D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		36D7D697E5611734225EB8AD /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		36D7D7AC48022D6A50331718 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		36D7D94ED13A9300E7B07134 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		36D7D982EED591A9487BCF10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		36D7DADC2999007B7CF9C65A /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		36D7DB78EF8C1D7414DF6640 /* StatisticViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		36D7DBC84F9E4E7366144444 /* TrackerCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		36D7DC06DF3BF7BE8C9F1CBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		36D7DC131713656A6F6C306E /* PlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		36D7DC5352C350B2A6BA8383 /* TrackerSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerSchedule.swift; sourceTree = "<group>"; };
 		36D7DC73011949D3A4B87631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		36D7DC7C2DCB1EA15EC0FDD0 /* TrackersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +91,18 @@
 				36D7D855178AE89EC5BC54B9 /* Main.storyboard */,
 				36D7DC7C2DCB1EA15EC0FDD0 /* TrackersViewController.swift */,
 				36D7DE27375312D227EBDA3B /* Models */,
+				36D7D697E5611734225EB8AD /* MockData.swift */,
+				36D7DC131713656A6F6C306E /* PlaceholderView.swift */,
+				36D7D044F4FAFDE5BB42D580 /* HeaderSectionView.swift */,
+				36D7D08DF0CCF0970918E1B5 /* TrackerCell.swift */,
+				36D7D7AC48022D6A50331718 /* TabBarViewController.swift */,
+				36D7DB78EF8C1D7414DF6640 /* StatisticViewController.swift */,
+				36D7D5333EDB15A9B2ED42F7 /* TrackerCreationViewController.swift */,
+				36D7D1C8C6FE023882218AF5 /* ScheduleViewController.swift */,
+				36D7D655B2F1851AA214F655 /* EventCreationViewController.swift */,
+				36D7D5B12977D139AA95F597 /* HabitCreationViewController.swift */,
+				36D7D448243739A1E7DCBE40 /* InsetTextField.swift */,
+				36D7DADC2999007B7CF9C65A /* CustomTableViewCell.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -162,6 +198,18 @@
 				36D7D33449841B55732278DA /* TrackerCategory.swift in Sources */,
 				36D7D7AB414BAC1468854E39 /* TrackerRecord.swift in Sources */,
 				36D7D89A21FD9EA8107CF3D7 /* TrackerSchedule.swift in Sources */,
+				36D7D8D28339F893D12C22AD /* MockData.swift in Sources */,
+				36D7DBB2F99A4B4D1FC4CCDC /* PlaceholderView.swift in Sources */,
+				36D7DB9C86ABE52BE3B26098 /* HeaderSectionView.swift in Sources */,
+				36D7D34E4FCBB3A91704C9A1 /* TrackerCell.swift in Sources */,
+				36D7DBFC0B8530C5BE471ABB /* TabBarViewController.swift in Sources */,
+				36D7DC52000F90B44E940F05 /* StatisticViewController.swift in Sources */,
+				36D7DC8F2F09DEDE9C612696 /* TrackerCreationViewController.swift in Sources */,
+				36D7D9023D1A6699D8FCEC04 /* ScheduleViewController.swift in Sources */,
+				36D7D6D87436DD70831F4810 /* EventCreationViewController.swift in Sources */,
+				36D7D795CB7DD4E053E1E9CB /* HabitCreationViewController.swift in Sources */,
+				36D7D5DC6139856FCC07664D /* InsetTextField.swift in Sources */,
+				36D7DE736CE57C7B6BF786A8 /* CustomTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
