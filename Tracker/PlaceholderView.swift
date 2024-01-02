@@ -16,6 +16,9 @@ final class PlaceholderView: UIView {
         textPlaceholder.translatesAutoresizingMaskIntoConstraints = false
         textPlaceholder.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         textPlaceholder.textColor = UIColor(named: "YPBlack")
+        textPlaceholder.numberOfLines = 0
+        textPlaceholder.lineBreakMode = .byWordWrapping
+        textPlaceholder.textAlignment = .center
         return textPlaceholder
     }()
 
@@ -43,7 +46,8 @@ final class PlaceholderView: UIView {
 
         NSLayoutConstraint.activate([
             textPlaceholder.centerXAnchor.constraint(equalTo: centerXAnchor),
-            textPlaceholder.topAnchor.constraint(equalTo: imagePlaceholder.bottomAnchor, constant: 8)
+            textPlaceholder.topAnchor.constraint(equalTo: imagePlaceholder.bottomAnchor, constant: 8),
+            textPlaceholder.widthAnchor.constraint(equalToConstant: 180)
         ])
     }
 

@@ -1,50 +1,21 @@
 //
-// Created by Ruslan S. Shvetsov on 27.12.2023.
+// Created by Ruslan S. Shvetsov on 02.01.2024.
 //
 
 import UIKit
 
-struct WeekdayMask: OptionSet {
-    let rawValue: Int
 
-    static let monday    = WeekdayMask(rawValue: 1 << 0)
-    static let tuesday   = WeekdayMask(rawValue: 1 << 1)
-    static let wednesday = WeekdayMask(rawValue: 1 << 2)
-    static let thursday  = WeekdayMask(rawValue: 1 << 3)
-    static let friday    = WeekdayMask(rawValue: 1 << 4)
-    static let saturday  = WeekdayMask(rawValue: 1 << 5)
-    static let sunday    = WeekdayMask(rawValue: 1 << 6)
-
-    static let allDays: WeekdayMask = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
-}
-
-
-enum WeekDay: String, CaseIterable {
-    case monday = "Понедельник",
-         tuesday = "Вторник",
-         wednesday = "Среда",
-         thursday = "Четверг",
-         friday = "Пятница",
-         saturday = "Суббота",
-         sunday = "Воскресенье"
-}
-
-protocol ScheduleViewControllerDelegate: AnyObject {
-    func didSelectWeekdayMask(_ mask: WeekdayMask)
-}
-
-final class ScheduleViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    weak var delegate: ScheduleViewControllerDelegate?
-
+final class CategoryCreationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    private let placeholderView = PlaceholderView()
     var tableView: UITableView!
 
-    var weekDaySwitchStates: [WeekDay: Bool] = [.monday: false, .tuesday: false, .wednesday: false,
-                                                .thursday: false, .friday: false, .saturday: false,
-                                                .sunday: false]
+    private var categories: [TrackerCategory] = []
+    private let dataManager = MockData.shared
+    private var selectedCategoryIndex: Int?
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Расписание"
+        label.text = "Категория"
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -53,7 +24,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     private let doneButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "YPBlack") ?? .black
-        button.setTitle("Готово", for: .normal)
+        button.setTitle("Добавить категорию", for: .normal)
         button.tintColor = .white
         button.layer.cornerRadius = 16
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -61,24 +32,51 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         return button
     }()
 
+    private func reloadData() {
+        categories = dataManager.categories
+    }
+
+    private func reloadPlaceholders() {
+        if categories.isEmpty {
+            placeholderView.isHidden = false
+            tableView.isHidden = true
+            tableView.alpha = 0
+            placeholderView.configure(with: UIImage(named: "ImagePlaceholder"),
+                    text: "Привычки и события можно объединить по смыслу")
+        } else {
+            placeholderView.isHidden = true
+            tableView.isHidden = false
+            tableView.alpha = 1
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupTableView()
+        reloadData()
+        reloadPlaceholders()
     }
 
     func setupViews() {
         view.backgroundColor = UIColor(named: "YPWhite")
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-
         view.addSubview(titleLabel)
         view.addSubview(doneButton)
-
+        view.addSubview(placeholderView)
+        view.bringSubviewToFront(placeholderView)
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
+
+            placeholderView.centerXAnchor.constraint(
+                    equalTo: view.centerXAnchor
+            ),
+
+            placeholderView.topAnchor.constraint(
+                    equalTo: titleLabel.bottomAnchor,
+                    constant: 246
+            ),
 
             doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -90,22 +88,6 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     @objc func doneAction() {
-        var mask = WeekdayMask()
-        for (day, isOn) in weekDaySwitchStates {
-            if isOn {
-                switch day {
-                case .monday: mask.insert(.monday)
-                case .tuesday: mask.insert(.tuesday)
-                case .wednesday: mask.insert(.wednesday)
-                case .thursday: mask.insert(.thursday)
-                case .friday: mask.insert(.friday)
-                case .saturday: mask.insert(.saturday)
-                case .sunday: mask.insert(.sunday)
-                default: break
-                }
-            }
-        }
-        delegate?.didSelectWeekdayMask(mask)
         dismiss(animated: true, completion: nil)
     }
 
@@ -118,7 +100,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WeekDayCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
         view.addSubview(tableView)
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -131,7 +113,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        WeekDay.allCases.count
+        categories.count
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -139,25 +121,33 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WeekDayCell", for: indexPath)
-        let day = WeekDay.allCases[indexPath.row]
-        cell.textLabel?.text = day.rawValue
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
+        let category = categories[indexPath.row]
+        cell.textLabel?.text = category.title
         cell.backgroundColor = UIColor(named: "YPBackground")
         cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        let switchView = UISwitch()
-        switchView.onTintColor = UIColor.systemBlue
-        switchView.isOn = weekDaySwitchStates[day] ?? false
-        switchView.addTarget(self, action: #selector(toggleSwitch(sender:)), for: .valueChanged)
-        cell.accessoryView = switchView
 
+        if indexPath.row == selectedCategoryIndex {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         return cell
     }
 
-    @objc func toggleSwitch(sender: UISwitch) {
-        if let cell = sender.superview as? UITableViewCell,
-           let indexPath = tableView.indexPath(for: cell),
-           let day = WeekDay(rawValue: cell.textLabel?.text ?? "") {
-            weekDaySwitchStates[day] = sender.isOn
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let index = selectedCategoryIndex {
+            let previousIndexPath = IndexPath(row: index, section: 0)
+            tableView.cellForRow(at: previousIndexPath)?.accessoryType = .none
         }
+
+        selectedCategoryIndex = indexPath.row
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessoryType = indexPath.row == selectedCategoryIndex ? .checkmark : .none
     }
 }

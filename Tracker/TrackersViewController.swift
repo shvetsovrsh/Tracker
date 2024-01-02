@@ -591,18 +591,9 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let indexPath = IndexPath(item: 0, section: section)
         if visibleCategories[indexPath.section].trackers.count == 0 {
-            return CGSizeZero
+            return CGSize.zero
         }
-        let headerView = self.collectionView(
-                collectionView,
-                viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader,
-                at: indexPath)
-
-        return headerView.systemLayoutSizeFitting(
-                CGSize(width: collectionView.frame.width,
-                        height: UIView.layoutFittingExpandedSize.height),
-                withHorizontalFittingPriority: .required,
-                verticalFittingPriority: .fittingSizeLevel)
+        return CGSize(width: collectionView.frame.width, height: 46)
     }
 }
 

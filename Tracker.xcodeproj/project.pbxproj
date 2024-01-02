@@ -12,6 +12,7 @@
 		36D7D34032BA6173129AB428 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36D7DFDD3A1164A08DBF1DA7 /* Assets.xcassets */; };
 		36D7D34E4FCBB3A91704C9A1 /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D08DF0CCF0970918E1B5 /* TrackerCell.swift */; };
 		36D7D38F0028420C0CEFF0AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D66179F0E15407E1A33D /* SceneDelegate.swift */; };
+		36D7D4934914B4143531AF77 /* CategoryCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D5D970EEA1B9C32942B0 /* CategoryCreationViewController.swift */; };
 		36D7D4B58EFBB8682E672E42 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DDBA0FC76741FB6C99C5 /* ViewController.swift */; };
 		36D7D4FF0FAFB4EA7130811F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36D7D855178AE89EC5BC54B9 /* Main.storyboard */; };
 		36D7D5DC6139856FCC07664D /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D448243739A1E7DCBE40 /* InsetTextField.swift */; };
@@ -42,6 +43,7 @@
 		36D7D502A44C496310275ECE /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36D7D5333EDB15A9B2ED42F7 /* TrackerCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerCreationViewController.swift; sourceTree = "<group>"; };
 		36D7D5B12977D139AA95F597 /* HabitCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitCreationViewController.swift; sourceTree = "<group>"; };
+		36D7D5D970EEA1B9C32942B0 /* CategoryCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCreationViewController.swift; sourceTree = "<group>"; };
 		36D7D655B2F1851AA214F655 /* EventCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCreationViewController.swift; sourceTree = "<group>"; };
 		36D7D66179F0E15407E1A33D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		36D7D697E5611734225EB8AD /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				36D7D5B12977D139AA95F597 /* HabitCreationViewController.swift */,
 				36D7D448243739A1E7DCBE40 /* InsetTextField.swift */,
 				36D7DADC2999007B7CF9C65A /* CustomTableViewCell.swift */,
+				36D7D5D970EEA1B9C32942B0 /* CategoryCreationViewController.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				36D7D795CB7DD4E053E1E9CB /* HabitCreationViewController.swift in Sources */,
 				36D7D5DC6139856FCC07664D /* InsetTextField.swift in Sources */,
 				36D7DE736CE57C7B6BF786A8 /* CustomTableViewCell.swift in Sources */,
+				36D7D4934914B4143531AF77 /* CategoryCreationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
