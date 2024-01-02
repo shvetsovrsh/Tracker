@@ -5,12 +5,12 @@
 import UIKit
 
 
-final class TrackerCreationViewController: UIViewController, HabitCreationViewControllerDidCloseDelegate {
+final class TrackerCreationViewController: UIViewController,
+        TrackerCreationViewControllerDidCloseDelegate {
 
+    weak var delegate: TrackerCreationViewControllerDelegate?
 
-    weak var delegate: HabitCreationViewControllerDelegate?
-
-    init(delegate: HabitCreationViewControllerDelegate?) {
+    init(delegate: TrackerCreationViewControllerDelegate?) {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -88,10 +88,12 @@ final class TrackerCreationViewController: UIViewController, HabitCreationViewCo
 
     @objc private func eventButtonTapped() {
         let viewController = EventCreationViewController()
+        viewController.delegate = delegate
+        viewController.delegateDidClose = self
         present(viewController, animated: true)
     }
 
-    func habitCreationViewControllerDidClose(_ viewController: HabitCreationViewController) {
+    func trackerCreationViewControllerDidClose(_ viewController: UIViewController) {
         viewController.dismiss(animated: true)
         dismiss(animated: true)
     }

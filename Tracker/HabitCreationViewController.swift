@@ -4,12 +4,12 @@
 
 import UIKit
 
-protocol HabitCreationViewControllerDelegate: AnyObject {
+protocol TrackerCreationViewControllerDelegate: AnyObject {
     func addNewTracker(_ trackerCategory: TrackerCategory)
 }
 
-protocol HabitCreationViewControllerDidCloseDelegate: AnyObject {
-    func habitCreationViewControllerDidClose(_ viewController: HabitCreationViewController)
+protocol TrackerCreationViewControllerDidCloseDelegate: AnyObject {
+    func trackerCreationViewControllerDidClose(_ viewController: UIViewController)
 }
 
 
@@ -17,8 +17,12 @@ final class HabitCreationViewController: UIViewController,
         UITableViewDelegate, UITableViewDataSource,
         UITextFieldDelegate, ScheduleViewControllerDelegate {
 
-    weak var delegate: HabitCreationViewControllerDelegate?
-    weak var delegateDidClose: HabitCreationViewControllerDidCloseDelegate?
+    weak var delegate: TrackerCreationViewControllerDelegate?
+    weak var delegateDidClose: TrackerCreationViewControllerDidCloseDelegate?
+
+    private var tableViewTopConstraint: NSLayoutConstraint?
+    private var tableViewTopConstraintWithCharLimit: NSLayoutConstraint?
+
 
     var daysOfWeek: [WeekDay] = []
     var daysOfWeekCasted: [DayOfWeek] = []
@@ -104,12 +108,12 @@ final class HabitCreationViewController: UIViewController,
         }
     }
 
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 {
             category = "Важное" // TODO get rid of stub with mock data
             tableView.reloadData()
+            updateCreateButtonState()
         } else if indexPath.row == 1 {
             let scheduleViewController = ScheduleViewController()
             scheduleViewController.delegate = self
@@ -132,6 +136,7 @@ final class HabitCreationViewController: UIViewController,
             cell.textLabel?.text = "Категория"
             cell.subtitleLabel.text = category
             cell.subtitleLabel.textColor = UIColor.gray
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         } else if indexPath.row == 1 {
             cell.textLabel?.text = "Расписание"
 
@@ -171,7 +176,6 @@ final class HabitCreationViewController: UIViewController,
         }
     }
 
-
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -201,15 +205,29 @@ final class HabitCreationViewController: UIViewController,
         return button
     }()
 
-
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, text.count > 38 {
             charLimitLabel.isHidden = false
         } else {
             charLimitLabel.isHidden = true
         }
-    }
 
+        tableViewTopConstraint?.isActive = false
+        tableViewTopConstraintWithCharLimit?.isActive = false
+
+        if charLimitLabel.isHidden {
+            tableViewTopConstraint?.isActive = true
+        } else {
+            tableViewTopConstraintWithCharLimit?.isActive = true
+        }
+
+        createButton.isEnabled = charLimitLabel.isHidden
+        createButton.backgroundColor = charLimitLabel.isHidden ? UIColor.black : UIColor(named: "YPGray")
+
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
 
     private func addElements() {
         view.addSubview(scrollView)
@@ -227,15 +245,20 @@ final class HabitCreationViewController: UIViewController,
         addElements()
         setupView()
         setupTableView()
+        updateCreateButtonState()
         view.backgroundColor = UIColor(named: "YPDefaultWhite")
     }
 
     private func setupView() {
         charLimitLabel.isHidden = true
+        tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 24)
+        tableViewTopConstraintWithCharLimit = tableView.topAnchor.constraint(equalTo: charLimitLabel.bottomAnchor, constant: 24)
+        tableViewTopConstraint?.isActive = charLimitLabel.isHidden
+        tableViewTopConstraintWithCharLimit?.isActive = !charLimitLabel.isHidden
+
         NSLayoutConstraint.activate([
             charLimitLabel.widthAnchor.constraint(equalToConstant: 286),
             charLimitLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 8),
-
             charLimitLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
 
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
@@ -254,18 +277,15 @@ final class HabitCreationViewController: UIViewController,
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             scrollView.bottomAnchor.constraint(equalTo: stackView.topAnchor),
 
-            tableView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             tableView.heightAnchor.constraint(equalToConstant: 149),
             tableView.widthAnchor.constraint(equalToConstant: 343),
 
-
             stackView.heightAnchor.constraint(equalToConstant: 60),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
-
         ])
     }
 
@@ -279,8 +299,18 @@ final class HabitCreationViewController: UIViewController,
         dismiss(animated: true)
     }
 
+    private func updateCreateButtonState() {
+        let isDataComplete = !(nameTextField.text?.isEmpty ?? true) &&
+                !(category?.isEmpty ?? true) &&
+                !daysOfWeekCasted.isEmpty
+
+        createButton.backgroundColor = isDataComplete ? UIColor(named: "YPBlack") : UIColor(named: "YPGray")
+    }
+
+
     private func showAlert() {
-        let alertController = UIAlertController(title: "Внимание", message: "Заполните все поля (название, категория, расписание)", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Внимание",
+                message: "Заполните все необходимые поля (название, категория, расписание)", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
@@ -304,11 +334,10 @@ final class HabitCreationViewController: UIViewController,
                                     daysOfWeek: daysOfWeekCasted,
                                     specificDays: []))])
             )
-            delegateDidClose?.habitCreationViewControllerDidClose(self)
+            delegateDidClose?.trackerCreationViewControllerDidClose(self)
         }
         dismiss(animated: true)
     }
-
 
     func didSelectWeekdayMask(_ mask: WeekdayMask) {
         daysOfWeek = []
@@ -338,8 +367,8 @@ final class HabitCreationViewController: UIViewController,
             dayMapping[$0]
         }
         tableView.reloadData()
+        updateCreateButtonState()
     }
-
 }
 
 extension UIView {

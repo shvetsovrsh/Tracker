@@ -412,7 +412,11 @@ final class TrackersViewController: UIViewController {
             )
         }
         collectionView.reloadData()
-        reloadPlaceholders(for: .noTrackers)
+        if filterText != "" {
+            reloadPlaceholders(for: .notFoundTrackers)
+        } else {
+            reloadPlaceholders(for: .noTrackers)
+        }
     }
 
     private func reloadPlaceholders(for type: PlaceholdersTypes) {
@@ -587,7 +591,7 @@ extension TrackersViewController: UITextFieldDelegate {
     }
 }
 
-extension TrackersViewController: HabitCreationViewControllerDelegate {
+extension TrackersViewController: TrackerCreationViewControllerDelegate {
     func addNewTracker(_ trackerCategory: TrackerCategory) {
         var newCategories: [TrackerCategory] = []
 
