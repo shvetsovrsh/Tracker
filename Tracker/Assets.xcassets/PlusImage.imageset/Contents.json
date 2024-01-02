@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "PlusImage.png",
+      "filename" : "Add tracker@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "PlusImage@2x.png",
+      "filename" : "Add tracker@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "PlusImage@3x.png",
+      "filename" : "Add tracker@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

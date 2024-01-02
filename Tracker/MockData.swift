@@ -15,16 +15,32 @@ final class MockData {
         let trackersCategory1 = TrackerCategory(
                 title: "Домашний уют",
                 trackers: [
-                    Tracker(id: UUID(), name: "Поливать растения", color: .green, emoji: "❤️", schedule: TrackerSchedule(frequency: .daily, daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday], specificDays: []))
+                    Tracker(id: UUID(), name: "Поливать растения",
+                            color: UIColor(named: "YPColorSelection5") ?? UIColor.gray, emoji: "❤️",
+                            schedule: TrackerSchedule(frequency: .daily,
+                                    daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
+                                    specificDays: []))
                 ]
         )
 
         let trackersCategory2 = TrackerCategory(
                 title: "Радостные мелочи",
                 trackers: [
-                    Tracker(id: UUID(), name: "Кошка заслонила камеру на созвоне", color: .orange, emoji: "😻", schedule: TrackerSchedule(frequency: .daily, daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday], specificDays: [])),
-                    Tracker(id: UUID(), name: "Бабушка прислала открытку в вотсапе", color: .red, emoji: "🌺", schedule: TrackerSchedule(frequency: .daily, daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday], specificDays: [])),
-                    Tracker(id: UUID(), name: "Свидания в апреле", color: .blue, emoji: "❤️", schedule: TrackerSchedule(frequency: .daily, daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday], specificDays: []))
+                    Tracker(id: UUID(), name: "Кошка заслонила камеру на созвоне",
+                            color: UIColor(named: "YPColorSelection2") ?? UIColor.gray, emoji: "😻",
+                            schedule: TrackerSchedule(frequency: .daily,
+                            daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
+                            specificDays: [])),
+                    Tracker(id: UUID(), name: "Бабушка прислала открытку в вотсапе",
+                            color: UIColor(named: "YPColorSelection1") ?? UIColor.gray, emoji: "🌺",
+                            schedule: TrackerSchedule(frequency: .daily,
+                            daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
+                            specificDays: [])),
+                    Tracker(id: UUID(), name: "Свидания в апреле",
+                            color: UIColor(named: "YPColorSelection14") ?? UIColor.gray, emoji: "❤️",
+                            schedule: TrackerSchedule(frequency: .daily,
+                            daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
+                            specificDays: []))
                 ]
         )
 

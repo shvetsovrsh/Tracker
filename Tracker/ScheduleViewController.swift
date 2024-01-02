@@ -142,7 +142,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeekDayCell", for: indexPath)
         let day = WeekDay.allCases[indexPath.row]
         cell.textLabel?.text = day.rawValue
-        cell.backgroundColor = UIColor(named: "YPBackground[day]")
+        cell.backgroundColor = UIColor(named: "YPBackground")
         cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         let switchView = UISwitch()
         switchView.onTintColor = UIColor.systemBlue

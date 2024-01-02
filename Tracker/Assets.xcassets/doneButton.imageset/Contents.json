@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "doneButton.png",
+      "filename" : "done.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "doneButton 1.png",
+      "filename" : "done2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "doneButton 2.png",
+      "filename" : "done3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

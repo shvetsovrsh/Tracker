@@ -69,7 +69,7 @@ final class HabitCreationViewController: UIViewController,
         let insets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 41)
         let field = InsetTextField(textInsets: insets)
         field.placeholder = "Введите название трекера"
-        field.backgroundColor = UIColor(named: "YPBackground[day]")
+        field.backgroundColor = UIColor(named: "YPBackground")
         field.clearButtonMode = .whileEditing
         field.textColor = UIColor(named: "YPGray")
         field.font = .systemFont(ofSize: 17, weight: .regular)
@@ -131,7 +131,7 @@ final class HabitCreationViewController: UIViewController,
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
-        cell.backgroundColor = UIColor(named: "YPBackground[day]")
+        cell.backgroundColor = UIColor(named: "YPBackground")
         if indexPath.row == 0 {
             cell.textLabel?.text = "Категория"
             cell.subtitleLabel.text = category

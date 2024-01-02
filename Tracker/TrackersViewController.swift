@@ -34,8 +34,8 @@ final class TrackersViewController: UIViewController {
     }
 
     let params = GeometricParams(cellCount: 2,
-            leftInset: 16,
-            rightInset: 16,
+            leftInset: 0,
+            rightInset: 0,
             cellSpacing: 9)
 
 
@@ -70,6 +70,7 @@ final class TrackersViewController: UIViewController {
         let label = UILabel()
         label.text = "Трекеры"
         label.textColor = UIColor(named: "YPBlack")
+        label.font = .systemFont(ofSize: 34, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -106,14 +107,14 @@ final class TrackersViewController: UIViewController {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.distribution = .fill
-        stack.spacing = 14
+        stack.spacing = 5
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
 
     private let searchTextField: UISearchTextField = {
         let textField = UISearchTextField()
-        textField.backgroundColor = UIColor(named: "YPBackground")
+        textField.backgroundColor = UIColor(named: "YPWhite")
         textField.textColor = UIColor(named: "YPBlack")
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 10
@@ -136,7 +137,7 @@ final class TrackersViewController: UIViewController {
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Отменить", for: .normal)
-
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
         button.tintColor = UIColor(named: "YPBlue")
         button.isHidden = true
         button.addTarget(nil, action: #selector(cancelButtonTapped), for: .touchUpInside)
@@ -194,7 +195,7 @@ final class TrackersViewController: UIViewController {
     //MARK: - Helpers
 
     private func configureView() {
-        view.backgroundColor = UIColor(named: "YPBackground")
+        view.backgroundColor = UIColor(named: "YPWhite")
         searchTextField.returnKeyType = .done
         filterButton.layer.zPosition = 2
     }
@@ -234,7 +235,8 @@ final class TrackersViewController: UIViewController {
 
         collectionView.register(
                 HeaderSectionView.self,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Constants.headerCellIdentifier
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: Constants.headerCellIdentifier
         )
 
         collectionView.backgroundColor = .clear
@@ -244,49 +246,62 @@ final class TrackersViewController: UIViewController {
         NSLayoutConstraint.activate([
 
             headerView.leadingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                    constant: 16
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor
             ),
 
             headerView.topAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.topAnchor,
-                    constant: 13
+                    equalTo: view.safeAreaLayoutGuide.topAnchor
             ),
 
             headerView.trailingAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                    constant: -16
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor
             ),
 
-            headerView.heightAnchor.constraint(equalToConstant: 138),
+            headerView.heightAnchor.constraint(
+                    equalToConstant: 137
+            ),
 
             addButton.leadingAnchor.constraint(
-                    equalTo: headerView.leadingAnchor,
-                    constant: 2
+                    equalTo: headerView.leadingAnchor
+                    , constant: 6
             ),
 
             addButton.topAnchor.constraint(
                     equalTo: headerView.topAnchor
+                    , constant: 1
+            ),
+
+            addButton.heightAnchor.constraint(
+                    equalToConstant: 42
+            ),
+
+            addButton.widthAnchor.constraint(
+                    equalToConstant: 42
             ),
 
             titleHeader.leadingAnchor.constraint(
                     equalTo: headerView.leadingAnchor
-            ),
-            titleHeader.topAnchor.constraint(
-                    equalTo: addButton.bottomAnchor,
-                    constant: 21
+                    , constant: 16
             ),
 
+            titleHeader.topAnchor.constraint(
+                    equalTo: addButton.bottomAnchor,
+                    constant: 1
+            ),
 
             dateLabel.trailingAnchor.constraint(
                     equalTo: headerView.trailingAnchor
+                    , constant: -16
             ),
+
             dateLabel.centerYAnchor.constraint(
-                    equalTo: titleHeader.centerYAnchor
+                    equalTo: addButton.centerYAnchor
             ),
+
             dateLabel.widthAnchor.constraint(
                     equalToConstant: 77
             ),
+
             dateLabel.heightAnchor.constraint(
                     equalToConstant: 34
             ),
@@ -294,11 +309,13 @@ final class TrackersViewController: UIViewController {
 
             datePicker.trailingAnchor.constraint(
                     equalTo: headerView.trailingAnchor
+                    , constant: -16
             ),
 
             datePicker.centerYAnchor.constraint(
-                    equalTo: titleHeader.centerYAnchor
+                    equalTo: addButton.centerYAnchor
             ),
+
             datePicker.widthAnchor.constraint(
                     equalToConstant: 77
             ),
@@ -309,6 +326,7 @@ final class TrackersViewController: UIViewController {
 
             searchStackView.leadingAnchor.constraint(
                     equalTo: headerView.leadingAnchor
+                    , constant: 16
             ),
 
             searchStackView.bottomAnchor.constraint(
@@ -317,6 +335,7 @@ final class TrackersViewController: UIViewController {
 
             searchStackView.trailingAnchor.constraint(
                     equalTo: headerView.trailingAnchor
+                    , constant: -16
             ),
 
             placeholderView.centerXAnchor.constraint(
@@ -329,16 +348,18 @@ final class TrackersViewController: UIViewController {
             ),
 
             collectionView.leadingAnchor.constraint(
-                    equalTo: view.leadingAnchor
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor
+                    , constant: 16
             ),
 
             collectionView.topAnchor.constraint(
                     equalTo: headerView.bottomAnchor
+                    , constant: 8
             ),
 
-
             collectionView.trailingAnchor.constraint(
-                    equalTo: view.trailingAnchor
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor
+                    , constant: -16
             ),
 
             collectionView.bottomAnchor.constraint(
@@ -347,7 +368,7 @@ final class TrackersViewController: UIViewController {
 
             filterButton.bottomAnchor.constraint(
                     equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                    constant: -17
+                    constant: -16
             ),
 
             filterButton.heightAnchor.constraint(
@@ -444,6 +465,9 @@ final class TrackersViewController: UIViewController {
         searchTextField.resignFirstResponder()
         reloadVisibleCategories(text: nil, date: Date())
         cancelButton.isHidden = true
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
@@ -587,9 +611,14 @@ extension TrackersViewController: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         reloadVisibleCategories(text: searchTextField.text, date: datePicker.date)
+        cancelButton.isHidden = false
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
         return true
     }
 }
+
 
 extension TrackersViewController: TrackerCreationViewControllerDelegate {
     func addNewTracker(_ trackerCategory: TrackerCategory) {

@@ -101,12 +101,15 @@ final class TrackerCell: UICollectionViewCell {
             titleLabel.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor, constant: 8),
             titleLabel.bottomAnchor.constraint(equalTo: cardBackgroundView.bottomAnchor, constant: -12),
 
+            titleLabel.widthAnchor.constraint(equalToConstant: 143),
+            titleLabel.heightAnchor.constraint(equalToConstant: 34),
+
             statisticLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            statisticLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             statisticLabel.topAnchor.constraint(equalTo: cardBackgroundView.bottomAnchor, constant: 16),
-            statisticLabel.centerYAnchor.constraint(equalTo: statisticLabel.centerYAnchor),
+            statisticLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
 
             completionButton.topAnchor.constraint(equalTo: cardBackgroundView.bottomAnchor, constant: 8),
+            completionButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             completionButton.trailingAnchor.constraint(equalTo: cardBackgroundView.trailingAnchor, constant: -12),
             completionButton.widthAnchor.constraint(equalToConstant: 34),
             completionButton.heightAnchor.constraint(equalToConstant: 34),
