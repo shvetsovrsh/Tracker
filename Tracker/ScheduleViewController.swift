@@ -118,7 +118,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WeekDayCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.scheduleCellIdentifier)
         view.addSubview(tableView)
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -139,7 +139,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WeekDayCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.scheduleCellIdentifier, for: indexPath)
         let day = WeekDay.allCases[indexPath.row]
         cell.textLabel?.text = day.rawValue
         cell.backgroundColor = UIColor(named: "YPBackground")

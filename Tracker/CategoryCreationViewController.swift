@@ -4,8 +4,14 @@
 
 import UIKit
 
+protocol CategoryCreationViewControllerDelegate: AnyObject {
+    func categoryCreationViewController(_ controller: CategoryCreationViewController, didSelectCategory category: TrackerCategory)
+}
+
 
 final class CategoryCreationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    weak var delegate: CategoryCreationViewControllerDelegate?
+
     private let placeholderView = PlaceholderView()
     var tableView: UITableView!
 
@@ -88,8 +94,13 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
     }
 
     @objc func doneAction() {
+        if let selectedIndex = selectedCategoryIndex {
+            let selectedCategory = categories[selectedIndex]
+            delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
+        }
         dismiss(animated: true, completion: nil)
     }
+
 
     func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
@@ -97,10 +108,10 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         tableView.layer.cornerRadius = 10
         tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner,
                                          .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CategoryCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.categoryCellIdentifier)
         view.addSubview(tableView)
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -121,7 +132,7 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.categoryCellIdentifier, for: indexPath)
         let category = categories[indexPath.row]
         cell.textLabel?.text = category.title
         cell.backgroundColor = UIColor(named: "YPBackground")
@@ -143,6 +154,10 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
 
         selectedCategoryIndex = indexPath.row
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+
+        let selectedCategory = categories[indexPath.row]
+        delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
+
 
         tableView.deselectRow(at: indexPath, animated: true)
     }

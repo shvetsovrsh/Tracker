@@ -94,7 +94,7 @@ final class HabitCreationViewController: UIViewController,
     private let tableView = UITableView()
 
     private func setupTableView() {
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "CustomTableViewCell")
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: Constants.customTableCellIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
@@ -112,9 +112,8 @@ final class HabitCreationViewController: UIViewController,
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 {
             let categoryCreationViewController = CategoryCreationViewController()
-//            categoryCreationViewController.delegate = self
+            categoryCreationViewController.delegate = self
             present(categoryCreationViewController, animated: true)
-            category = "Важное" // TODO get rid of stub with mock data
             tableView.reloadData()
             updateCreateButtonState()
         } else if indexPath.row == 1 {
@@ -133,7 +132,8 @@ final class HabitCreationViewController: UIViewController,
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.customTableCellIdentifier,
+                for: indexPath) as! CustomTableViewCell
         cell.backgroundColor = UIColor(named: "YPBackground")
         if indexPath.row == 0 {
             cell.textLabel?.text = "Категория"
@@ -373,6 +373,15 @@ final class HabitCreationViewController: UIViewController,
         updateCreateButtonState()
     }
 }
+
+extension HabitCreationViewController: CategoryCreationViewControllerDelegate {
+    func categoryCreationViewController(_ controller: CategoryCreationViewController, didSelectCategory category: TrackerCategory) {
+        self.category = category.title
+        tableView.reloadData()
+        updateCreateButtonState()
+    }
+}
+
 
 extension UIView {
     func roundCorners(corners: UIRectCorner, radius: CGFloat) {

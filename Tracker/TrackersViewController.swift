@@ -4,34 +4,12 @@
 
 import UIKit
 
+enum PlaceholdersTypes {
+    case noTrackers
+    case notFoundTrackers
+}
+
 final class TrackersViewController: UIViewController {
-
-    enum PlaceholdersTypes {
-        case noTrackers
-        case notFoundTrackers
-    }
-
-    struct Constants {
-        static let taskCellIdentifier = "TaskCell"
-        static let headerCellIdentifier = "HeaderCell"
-    }
-
-    struct GeometricParams {
-        let cellCount: Int
-        let leftInset: CGFloat
-        let rightInset: CGFloat
-        let cellSpacing: CGFloat
-        // Параметр вычисляется уже при создании, что экономит время на вычислениях при отрисовке коллекции.
-        let paddingWidth: CGFloat
-
-        init(cellCount: Int, leftInset: CGFloat, rightInset: CGFloat, cellSpacing: CGFloat) {
-            self.cellCount = cellCount
-            self.leftInset = leftInset
-            self.rightInset = rightInset
-            self.cellSpacing = cellSpacing
-            paddingWidth = leftInset + rightInset + CGFloat(cellCount - 1) * cellSpacing
-        }
-    }
 
     let params = GeometricParams(cellCount: 2,
             leftInset: 0,
@@ -40,7 +18,6 @@ final class TrackersViewController: UIViewController {
 
 
     //MARK: - Properties
-
     private let headerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -132,7 +109,6 @@ final class TrackersViewController: UIViewController {
 
         return textField
     }()
-
 
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -571,8 +547,7 @@ extension TrackersViewController: TrackersViewControllerDelegate {
                 completedTrackers.append(trackerRecord)
             }
             collectionView.reloadItems(at: [indexPath])
-        }
-        else {
+        } else {
             print("Нельзя обновлять счетчик для будущей даты")
         }
     }
