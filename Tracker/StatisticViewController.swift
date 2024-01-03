@@ -54,6 +54,8 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
             fatalError("Unable to dequeue StatisticTableViewCell")
         }
 
+        cell.selectionStyle = .none
+
         cell.titleLabel.text = statistics[indexPath.section]["title"] as? String
         cell.valueLabel.text = "\(statistics[indexPath.section]["value"] as? Int ?? 0)"
 

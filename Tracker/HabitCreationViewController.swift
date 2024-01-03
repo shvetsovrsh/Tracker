@@ -23,6 +23,11 @@ final class HabitCreationViewController: UIViewController,
     private var tableViewTopConstraint: NSLayoutConstraint?
     private var tableViewTopConstraintWithCharLimit: NSLayoutConstraint?
 
+    private var emojiCollectionView: SelectableCollectionView?
+    private var colorCollectionView: SelectableCollectionView?
+
+
+    private let dataManager = MockData.shared
 
     var daysOfWeek: [WeekDay] = []
     var daysOfWeekCasted: [DayOfWeek] = []
@@ -40,7 +45,6 @@ final class HabitCreationViewController: UIViewController,
 
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
-//        view.contentSize = CGSize(width: view.bounds.width, height: 600)
         view.isMultipleTouchEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -89,7 +93,6 @@ final class HabitCreationViewController: UIViewController,
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
 
     private let tableView = UITableView()
 
@@ -248,8 +251,50 @@ final class HabitCreationViewController: UIViewController,
         addElements()
         setupView()
         setupTableView()
+//        configureCollectionView(&emojiCollectionView, with: dataManager.emojiData)
+//        configureCollectionView(&colorCollectionView, with: dataManager.colorData)
+//        addAndSetupCollectionViews()
         updateCreateButtonState()
         view.backgroundColor = UIColor(named: "YPDefaultWhite")
+    }
+
+    private func addAndSetupCollectionViews() {
+        if let emojiCollectionView = emojiCollectionView {
+            scrollView.addSubview(emojiCollectionView)
+            setupCollectionView(emojiCollectionView)
+        }
+
+        if let colorCollectionView = colorCollectionView {
+            scrollView.addSubview(colorCollectionView)
+            setupCollectionView(colorCollectionView)
+        }
+    }
+
+    private func configureCollectionView(_ collectionView: inout SelectableCollectionView?,
+                                         with dataSource: SelectableCollectionDataSource) {
+        let layout = UICollectionViewFlowLayout()
+        collectionView = SelectableCollectionView(frame: .zero,
+                collectionViewLayout: layout,
+                dataSource: dataSource)
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private func setupCollectionView(_ collectionView: SelectableCollectionView) {
+        if collectionView == emojiCollectionView {
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
+            ])
+
+        } else {
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 270),
+            ])
+        }
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 2),
+            collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 3),
+            collectionView.heightAnchor.constraint(equalToConstant: 204)
+        ])
     }
 
     private func setupView() {
