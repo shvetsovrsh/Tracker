@@ -321,28 +321,18 @@ final class HabitCreationViewController: UIViewController,
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
             nameTextField.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor
-                    , constant: 16
-            ),
+            nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             nameTextField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             nameTextField.heightAnchor.constraint(equalToConstant: 75),
 
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor
-                    , constant: 16
-            ),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor
-                    , constant: -16
-            ),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 149),
             tableView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
 
             stackView.heightAnchor.constraint(equalToConstant: 60),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor
-                    , constant: 20
-            ),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor
-                    , constant: -20
-            ),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }

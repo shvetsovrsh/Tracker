@@ -49,7 +49,6 @@ final class SelectableCollectionView: UICollectionView,
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.layer.borderWidth = 3
         cell?.layer.borderColor = UIColor.gray.cgColor
-
         selectedItemIndex = indexPath
     }
 
@@ -62,12 +61,21 @@ final class SelectableCollectionView: UICollectionView,
             cell.contentView.addSubview(label)
             label.frame = cell.bounds
         } else if let color = item as? UIColor {
-            cell.backgroundColor = color
+            let colorView = UIView()
+            colorView.backgroundColor = color
+            colorView.layer.cornerRadius = 8
+            colorView.layer.borderWidth = 3
+            colorView.layer.borderColor = color.cgColor
+            colorView.frame = CGRect(x: 6, y: 6, width: 40, height: 40)
+            cell.contentView.addSubview(colorView)
+
+            cell.layer.cornerRadius = 8
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = color.cgColor
         }
 
         if indexPath == selectedItemIndex {
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor.gray.cgColor
         } else {
             cell.layer.borderWidth = 0
         }

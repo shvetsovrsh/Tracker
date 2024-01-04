@@ -32,8 +32,8 @@ final class CustomTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
         ])
     }
 
