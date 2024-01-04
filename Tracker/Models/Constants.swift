@@ -4,11 +4,12 @@
 
 import Foundation
 
-struct Constants {
+enum Constants {
     static let taskCellIdentifier = "TaskCell"
     static let headerCellIdentifier = "HeaderCell"
     static let scheduleCellIdentifier = "WeekDayCell"
     static let categoryCellIdentifier = "CategoryCell"
     static let customTableCellIdentifier = "CustomTableViewCell"
     static let gradientCellIdentifier = "GradientCell"
+    static let collectionViewCellIdentifier = "CollectionViewCell"
 }

@@ -9,7 +9,7 @@ protocol SelectableCollectionDataSource {
     var title: String { get }
 }
 
-class SelectableCollectionView: UICollectionView,
+final class SelectableCollectionView: UICollectionView,
         UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var dataSourceObject: SelectableCollectionDataSource!
@@ -22,7 +22,7 @@ class SelectableCollectionView: UICollectionView,
         dataSourceObject = dataSource
         delegate = self
         self.dataSource = self
-        self.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        self.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constants.collectionViewCellIdentifier)
         backgroundColor = UIColor(named: "YPWhite")
     }
 
@@ -35,7 +35,7 @@ class SelectableCollectionView: UICollectionView,
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.collectionViewCellIdentifier, for: indexPath)
         configureCell(cell, with: dataSourceObject.items[indexPath.item], at: indexPath)
         return cell
     }

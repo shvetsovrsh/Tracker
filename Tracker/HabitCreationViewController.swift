@@ -75,7 +75,7 @@ final class HabitCreationViewController: UIViewController,
         field.placeholder = "Введите название трекера"
         field.backgroundColor = UIColor(named: "YPBackground")
         field.clearButtonMode = .whileEditing
-        field.textColor = UIColor(named: "YPGray")
+        field.textColor = UIColor(named: "YPBlack")
         field.font = .systemFont(ofSize: 17, weight: .regular)
         field.layer.masksToBounds = true
         field.layer.cornerRadius = 16
@@ -101,6 +101,7 @@ final class HabitCreationViewController: UIViewController,
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.isScrollEnabled = false
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -135,30 +136,17 @@ final class HabitCreationViewController: UIViewController,
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.customTableCellIdentifier,
-                for: indexPath) as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.customTableCellIdentifier, for: indexPath) as! CustomTableViewCell
         cell.backgroundColor = UIColor(named: "YPBackground")
         if indexPath.row == 0 {
-            cell.textLabel?.text = "Категория"
-            cell.subtitleLabel.text = category
-            cell.subtitleLabel.textColor = UIColor.gray
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+            cell.configureCell(title: "Категория", subtitle: category ?? "")
         } else if indexPath.row == 1 {
-            cell.textLabel?.text = "Расписание"
-
-            if daysOfWeekCasted.count == 7 {
-                cell.subtitleLabel.text = "Каждый день"
-            } else {
-                let selectedDays = daysOfWeekCasted.map { day in
-                            mapDayOfWeekToString(day)
-                        }
-                        .joined(separator: ", ")
-
-                cell.subtitleLabel.text = selectedDays
-            }
-
-            cell.subtitleLabel.textColor = UIColor.gray
+            let subtitle = daysOfWeekCasted.count == 7 ? "Каждый день" : daysOfWeekCasted.map {
+                        mapDayOfWeekToString($0)
+                    }.joined(separator: ", ")
+            cell.configureCell(title: "Расписание", subtitle: subtitle)
         }
+
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -235,15 +223,23 @@ final class HabitCreationViewController: UIViewController,
         }
     }
 
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
     private func addElements() {
         view.addSubview(scrollView)
-        view.addSubview(stackView)
         view.addSubview(titleLabel)
+
         scrollView.addSubview(nameTextField)
         scrollView.addSubview(charLimitLabel)
         scrollView.addSubview(tableView)
+
         stackView.addArrangedSubview(cancelButton)
         stackView.addArrangedSubview(createButton)
+
+        scrollView.addSubview(stackView)
     }
 
     override func viewDidLoad() {
@@ -251,9 +247,9 @@ final class HabitCreationViewController: UIViewController,
         addElements()
         setupView()
         setupTableView()
-//        configureCollectionView(&emojiCollectionView, with: dataManager.emojiData)
-//        configureCollectionView(&colorCollectionView, with: dataManager.colorData)
-//        addAndSetupCollectionViews()
+        configureCollectionView(&emojiCollectionView, with: dataManager.emojiData)
+        configureCollectionView(&colorCollectionView, with: dataManager.colorData)
+        addAndSetupCollectionViews()
         updateCreateButtonState()
         view.backgroundColor = UIColor(named: "YPDefaultWhite")
     }
@@ -288,11 +284,16 @@ final class HabitCreationViewController: UIViewController,
         } else {
             NSLayoutConstraint.activate([
                 collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 270),
+                stackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor
+                        , constant: 16
+                ),
             ])
         }
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 2),
-            collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 3),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor
+                    , constant: 18
+            ),
+            collectionView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: 204)
         ])
     }
@@ -314,26 +315,35 @@ final class HabitCreationViewController: UIViewController,
             titleLabel.heightAnchor.constraint(equalToConstant: 20),
             titleLabel.widthAnchor.constraint(equalToConstant: 150),
 
-            nameTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
-            nameTextField.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            nameTextField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            nameTextField.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor
+                    , constant: 16
+            ),
+            nameTextField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             nameTextField.heightAnchor.constraint(equalToConstant: 75),
-            nameTextField.widthAnchor.constraint(equalToConstant: 343),
 
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            scrollView.bottomAnchor.constraint(equalTo: stackView.topAnchor),
-
-            tableView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor
+                    , constant: 16
+            ),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor
+                    , constant: -16
+            ),
             tableView.heightAnchor.constraint(equalToConstant: 149),
-            tableView.widthAnchor.constraint(equalToConstant: 343),
+            tableView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
 
             stackView.heightAnchor.constraint(equalToConstant: 60),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor
+                    , constant: 20
+            ),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor
+                    , constant: -20
+            ),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
 
@@ -438,4 +448,3 @@ extension UIView {
         layer.mask = shape
     }
 }
-

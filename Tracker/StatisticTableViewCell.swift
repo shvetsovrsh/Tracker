@@ -4,7 +4,7 @@
 
 import UIKit
 
-class StatisticTableViewCell: UITableViewCell {
+final class StatisticTableViewCell: UITableViewCell {
     let titleLabel = UILabel()
     let valueLabel = UILabel()
 

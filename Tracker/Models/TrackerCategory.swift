@@ -6,7 +6,7 @@ import Foundation
 
 public struct TrackerCategory {
     let title: String
-    var trackers: [Tracker]
+    let trackers: [Tracker]
 
     init(title: String, trackers: [Tracker]) {
         self.title = title

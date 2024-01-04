@@ -4,31 +4,6 @@
 
 import UIKit
 
-struct WeekdayMask: OptionSet {
-    let rawValue: Int
-
-    static let monday    = WeekdayMask(rawValue: 1 << 0)
-    static let tuesday   = WeekdayMask(rawValue: 1 << 1)
-    static let wednesday = WeekdayMask(rawValue: 1 << 2)
-    static let thursday  = WeekdayMask(rawValue: 1 << 3)
-    static let friday    = WeekdayMask(rawValue: 1 << 4)
-    static let saturday  = WeekdayMask(rawValue: 1 << 5)
-    static let sunday    = WeekdayMask(rawValue: 1 << 6)
-
-    static let allDays: WeekdayMask = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
-}
-
-
-enum WeekDay: String, CaseIterable {
-    case monday = "Понедельник",
-         tuesday = "Вторник",
-         wednesday = "Среда",
-         thursday = "Четверг",
-         friday = "Пятница",
-         saturday = "Суббота",
-         sunday = "Воскресенье"
-}
-
 protocol ScheduleViewControllerDelegate: AnyObject {
     func didSelectWeekdayMask(_ mask: WeekdayMask)
 }
@@ -36,7 +11,7 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 final class ScheduleViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     weak var delegate: ScheduleViewControllerDelegate?
 
-    var tableView: UITableView!
+    private var tableView: UITableView = UITableView()
 
     var weekDaySwitchStates: [WeekDay: Bool] = [.monday: false, .tuesday: false, .wednesday: false,
                                                 .thursday: false, .friday: false, .saturday: false,
@@ -67,7 +42,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         setupTableView()
     }
 
-    func setupViews() {
+    private func setupViews() {
         view.backgroundColor = UIColor(named: "YPWhite")
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
@@ -89,7 +64,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
     }
 
-    @objc func doneAction() {
+    @objc private func doneAction() {
         var mask = WeekdayMask()
         for (day, isOn) in weekDaySwitchStates {
             if isOn {
@@ -109,7 +84,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         dismiss(animated: true, completion: nil)
     }
 
-    func setupTableView() {
+    private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.layer.masksToBounds = true
         tableView.layer.cornerRadius = 10
@@ -153,7 +128,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         return cell
     }
 
-    @objc func toggleSwitch(sender: UISwitch) {
+    @objc private func toggleSwitch(sender: UISwitch) {
         if let cell = sender.superview as? UITableViewCell,
            let indexPath = tableView.indexPath(for: cell),
            let day = WeekDay(rawValue: cell.textLabel?.text ?? "") {

@@ -5,6 +5,7 @@
 import Foundation
 import UIKit
 
+//TODO remove this file on next iterations
 final class MockData {
     static let shared = MockData()
 

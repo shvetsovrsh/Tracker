@@ -21,19 +21,9 @@ final class HeaderSectionView: UICollectionReusableView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(
-                    equalTo: leadingAnchor
-                    , constant: 12
-            ),
-
-            titleLabel.topAnchor.constraint(
-                    equalTo: topAnchor
-                    , constant: 16
-            ),
-
-            titleLabel.bottomAnchor.constraint(
-                    equalTo: bottomAnchor
-                    , constant: -12
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12
             ),
         ])
     }

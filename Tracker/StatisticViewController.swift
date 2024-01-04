@@ -7,7 +7,8 @@ import UIKit
 final class StatisticViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     private let placeholderView = PlaceholderView()
-    var tableView: UITableView!
+    private var tableView: UITableView = UITableView()
+
     private var statistics: [[String: Any]] = []
 
     private let dataManager = MockData.shared
@@ -63,7 +64,7 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     private func reloadData() {
-//        statistics = dataManager.statistics TODO
+        // TODO 15 sprint add data core functionality
         statistics = [
             ["title": "Лучший период", "value": 6],
             ["title": "Идеальные дни", "value": 2],

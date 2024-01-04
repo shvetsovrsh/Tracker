@@ -6,7 +6,7 @@ import UIKit
 
 
 final class TrackerCreationViewController: UIViewController,
-        TrackerCreationViewControllerDidCloseDelegate {
+                                            TrackerCreationViewControllerDidCloseDelegate {
 
     weak var delegate: TrackerCreationViewControllerDelegate?
 
@@ -18,6 +18,26 @@ final class TrackerCreationViewController: UIViewController,
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Создание трекера"
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = UIColor(named: "YPBlack")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     private var habitButton: UIButton = {
         let button = UIButton()
@@ -51,6 +71,7 @@ final class TrackerCreationViewController: UIViewController,
     }()
 
     private func addElements() {
+        view.addSubview(titleLabel)
         view.addSubview(stackView)
         stackView.addArrangedSubview(habitButton)
         stackView.addArrangedSubview(eventButton)
@@ -66,9 +87,13 @@ final class TrackerCreationViewController: UIViewController,
     }
 
     private func setupView() {
-        navigationItem.title = "Создание трекера"
 
         NSLayoutConstraint.activate([
+
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            titleLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 20),
+            titleLabel.widthAnchor.constraint(equalToConstant: 150),
 
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),

@@ -13,7 +13,7 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
     weak var delegate: CategoryCreationViewControllerDelegate?
 
     private let placeholderView = PlaceholderView()
-    var tableView: UITableView!
+    private var tableView: UITableView = UITableView()
 
     private var categories: [TrackerCategory] = []
     private let dataManager = MockData.shared
@@ -64,7 +64,7 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         reloadPlaceholders()
     }
 
-    func setupViews() {
+    private func setupViews() {
         view.backgroundColor = UIColor(named: "YPWhite")
         view.addSubview(titleLabel)
         view.addSubview(doneButton)
@@ -93,7 +93,7 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         doneButton.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
     }
 
-    @objc func doneAction() {
+    @objc private func doneAction() {
         if let selectedIndex = selectedCategoryIndex {
             let selectedCategory = categories[selectedIndex]
             delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
@@ -101,8 +101,7 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         dismiss(animated: true, completion: nil)
     }
 
-
-    func setupTableView() {
+    private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.layer.masksToBounds = true
         tableView.layer.cornerRadius = 10
@@ -151,14 +150,10 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
             let previousIndexPath = IndexPath(row: index, section: 0)
             tableView.cellForRow(at: previousIndexPath)?.accessoryType = .none
         }
-
         selectedCategoryIndex = indexPath.row
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-
         let selectedCategory = categories[indexPath.row]
         delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
-
-
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
