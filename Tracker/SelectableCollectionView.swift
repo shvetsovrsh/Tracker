@@ -23,6 +23,8 @@ final class SelectableCollectionView: UICollectionView,
         delegate = self
         self.dataSource = self
         self.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constants.collectionViewCellIdentifier)
+        self.register(HeaderSectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: Constants.headerCellIdentifier)
         backgroundColor = UIColor(named: "YPWhite")
     }
 
@@ -32,6 +34,25 @@ final class SelectableCollectionView: UICollectionView,
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         dataSourceObject.items.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.headerCellIdentifier, for: indexPath) as? HeaderSectionView else {
+            return UICollectionReusableView()
+        }
+
+        let titleCategory = dataSourceObject.title
+        view.configureHeader(with: titleCategory)
+        return view
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let indexPath = IndexPath(item: 0, section: section)
+        if dataSourceObject.items.count == 0 {
+            return CGSize.zero
+        }
+        return CGSize(width: collectionView.frame.width, height: 46)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -91,6 +112,7 @@ final class SelectableCollectionView: UICollectionView,
             colorView.layer.cornerRadius = 8
             colorView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
             cell.contentView.addSubview(colorView)
+            colorView.center = cell.contentView.center
         }
     }
 

@@ -222,15 +222,13 @@ final class EventCreationViewController: UIViewController,
     private func setupCollectionView(_ collectionView: SelectableCollectionView) {
         if collectionView == emojiCollectionView {
             NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
+                collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 16),
             ])
 
         } else {
             NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 270),
-                stackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor
-                        , constant: 16
-                ),
+                collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 265),
+                stackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
             ])
         }
         NSLayoutConstraint.activate([
@@ -238,7 +236,7 @@ final class EventCreationViewController: UIViewController,
                     , constant: 18
             ),
             collectionView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 204)
+            collectionView.heightAnchor.constraint(equalToConstant: 204 + 46)
         ])
     }
 
@@ -315,7 +313,7 @@ final class EventCreationViewController: UIViewController,
                             name: text, color: UIColor(named: "YPColorSelection1") ?? .blue,
                             emoji: "😻️",
                             schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: [],
+                                    daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
                                     specificDays: []))])
             )
             delegateDidClose?.trackerCreationViewControllerDidClose(self)
