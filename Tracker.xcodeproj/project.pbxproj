@@ -39,6 +39,7 @@
 		36D7DE736CE57C7B6BF786A8 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DADC2999007B7CF9C65A /* CustomTableViewCell.swift */; };
 		36D7DE8D01840074B9F6BA45 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DC7C2DCB1EA15EC0FDD0 /* TrackersViewController.swift */; };
 		36D7DFA6D6ADB0DACEE69209 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D754C1597CFF69D24ECA /* Constants.swift */; };
+		D5ECE8A22B48685D0024DDD7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5ECE8A02B48685D0024DDD7 /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		36D7DFA555DC28DE7B359F0C /* StatisticTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticTableViewCell.swift; sourceTree = "<group>"; };
 		36D7DFDD3A1164A08DBF1DA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36D7DFE4411C916A108FF2B1 /* TrackerFrequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerFrequency.swift; sourceTree = "<group>"; };
+		D5ECE8A12B48685D0024DDD7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		36D7D07BE2BA5916A6DF7EB2 = {
 			isa = PBXGroup;
 			children = (
+				D5ECE8A02B48685D0024DDD7 /* Model.xcdatamodeld */,
 				36D7D62D33CDC4337F536DD1 /* Products */,
 				36D7D61697FB61A06D0E7EEF /* Tracker */,
 			);
@@ -234,6 +237,7 @@
 				36D7DC8F2F09DEDE9C612696 /* TrackerCreationViewController.swift in Sources */,
 				36D7D9023D1A6699D8FCEC04 /* ScheduleViewController.swift in Sources */,
 				36D7D6D87436DD70831F4810 /* EventCreationViewController.swift in Sources */,
+				D5ECE8A22B48685D0024DDD7 /* Model.xcdatamodeld in Sources */,
 				36D7D795CB7DD4E053E1E9CB /* HabitCreationViewController.swift in Sources */,
 				36D7D5DC6139856FCC07664D /* InsetTextField.swift in Sources */,
 				36D7DE736CE57C7B6BF786A8 /* CustomTableViewCell.swift in Sources */,
@@ -452,6 +456,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D5ECE8A02B48685D0024DDD7 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D5ECE8A12B48685D0024DDD7 /* Model.xcdatamodel */,
+			);
+			currentVersion = D5ECE8A12B48685D0024DDD7 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 36D7D840F6EF3E8E53666809 /* Project object */;
 }
