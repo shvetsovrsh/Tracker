@@ -43,13 +43,38 @@ final class SelectableCollectionView: UICollectionView,
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let oldIndex = selectedItemIndex {
             let oldCell = collectionView.cellForItem(at: oldIndex)
-            oldCell?.layer.borderWidth = 0
+            oldCell?.contentView.subviews.forEach { subview in
+                if subview is UILabel {
+                    subview.backgroundColor = .clear
+                } else if let colorView = subview as? UIView {
+                    if subview.tag == 99 {
+                        subview.removeFromSuperview()
+                    }
+                }
+            }
         }
 
         let cell = collectionView.cellForItem(at: indexPath)
-        cell?.layer.borderWidth = 3
-        cell?.layer.borderColor = UIColor.gray.cgColor
         selectedItemIndex = indexPath
+        cell?.contentView.subviews.forEach { subview in
+            if let label = subview as? UILabel {
+                label.backgroundColor = UIColor(named: "YPLightGray")
+                label.layer.cornerRadius = 16
+                label.clipsToBounds = true
+            } else if let colorView = subview as? UIView {
+                let frameView = UIView()
+                frameView.backgroundColor = .clear
+                frameView.layer.borderWidth = 3
+                frameView.layer.borderColor = colorView.backgroundColor?.withAlphaComponent(0.3).cgColor
+                frameView.frame = CGRect(x: colorView.frame.minX - 6,
+                        y: colorView.frame.minY - 6,
+                        width: colorView.frame.width + 12,
+                        height: colorView.frame.height + 12)
+                frameView.layer.cornerRadius = 8
+                frameView.tag = 99
+                cell?.contentView.insertSubview(frameView, belowSubview: colorView)
+            }
+        }
     }
 
     private func configureCell(_ cell: UICollectionViewCell, with item: Any, at indexPath: IndexPath) {
@@ -64,20 +89,8 @@ final class SelectableCollectionView: UICollectionView,
             let colorView = UIView()
             colorView.backgroundColor = color
             colorView.layer.cornerRadius = 8
-            colorView.layer.borderWidth = 3
-            colorView.layer.borderColor = color.cgColor
-            colorView.frame = CGRect(x: 6, y: 6, width: 40, height: 40)
+            colorView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
             cell.contentView.addSubview(colorView)
-
-            cell.layer.cornerRadius = 8
-            cell.layer.borderWidth = 3
-            cell.layer.borderColor = color.cgColor
-        }
-
-        if indexPath == selectedItemIndex {
-            cell.layer.borderWidth = 3
-        } else {
-            cell.layer.borderWidth = 0
         }
     }
 
