@@ -58,6 +58,7 @@ final class EventCreationViewController: UIViewController,
         field.layer.cornerRadius = 16
         field.translatesAutoresizingMaskIntoConstraints = false
         field.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        field.returnKeyType = .done
         return field
     }()
 
@@ -196,6 +197,7 @@ final class EventCreationViewController: UIViewController,
         addAndSetupCollectionViews()
         updateCreateButtonState()
         view.backgroundColor = UIColor(named: "YPDefaultWhite")
+        nameTextField.delegate = self
     }
 
     private func addAndSetupCollectionViews() {
