@@ -1,17 +1,15 @@
 //
-// Created by Ruslan S. Shvetsov on 05.01.2024.
+// Created by Ruslan S. Shvetsov on 06.01.2024.
 //
 
 import CoreData
-import UIKit
 
-final class TrackerStore: NSObject {
-
+final class TrackerRecordStore: NSObject {
     private let context: NSManagedObjectContext
 
-    private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
-        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+    private lazy var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData> = {
+        let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
 
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
                 managedObjectContext: self.context,
@@ -27,26 +25,13 @@ final class TrackerStore: NSObject {
         do {
             try fetchedResultsController.performFetch()
         } catch {
-            print("Failed to fetch entities: \(error)")
+            print("Failed to fetch records: \(error)")
         }
     }
 }
 
 
-extension TrackerStore {
-    private func convertToTrackerCoreData(_ tracker: Tracker) -> TrackerCoreData {
-        let trackerCoreData = TrackerCoreData(context: context)
-        trackerCoreData.id = tracker.id
-        trackerCoreData.name = tracker.name
-        trackerCoreData.color = tracker.color
-        trackerCoreData.emoji = tracker.emoji
-        trackerCoreData.schedule = tracker.schedule as NSObject
-        return trackerCoreData
-    }
-}
-
-
-extension TrackerStore {
+extension TrackerRecordStore {
     func numberOfSections() -> Int {
         fetchedResultsController.sections?.count ?? 0
     }
@@ -55,14 +40,24 @@ extension TrackerStore {
         fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-    func tracker(at indexPath: IndexPath) -> Tracker? {
-        let trackerCoreData = fetchedResultsController.object(at: indexPath)
-        return try? TrackerConversionService.convertToTracker(trackerCoreData)
+    func record(at indexPath: IndexPath) -> TrackerRecord? {
+        let recordCoreData = fetchedResultsController.object(at: indexPath)
+        return try? convertToTrackerRecord(recordCoreData)
+    }
+
+    private func convertToTrackerRecord(_ recordCoreData: TrackerRecordCoreData) throws -> TrackerRecord? {
+        guard let trackerID = recordCoreData.trackerID,
+              let date = recordCoreData.date
+        else {
+            throw TrackerError.notFound
+        }
+
+        return TrackerRecord(trackerID: trackerID, date: date)
     }
 }
 
 
-extension TrackerStore: NSFetchedResultsControllerDelegate {
+extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         // Код для подготовки к изменениям в контенте (например, начало обновления таблицы)
     }
