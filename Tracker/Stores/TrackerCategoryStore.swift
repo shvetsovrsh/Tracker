@@ -80,6 +80,33 @@ extension TrackerCategoryStore {
     }
 }
 
+extension TrackerCategoryStore {
+    func addNewTracker(_ tracker: Tracker, toCategoryWithTitle title: String) {
+        context.perform {
+            let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+            let categoryCoreData = (try? self.context.fetch(fetchRequest))?.first
+
+            let trackerCoreData = TrackerConversionService.convertToTrackerCoreData(tracker, context: self.context)
+
+            if let categoryCoreData = categoryCoreData {
+                categoryCoreData.addToTrackers(trackerCoreData)
+            } else {
+                let newCategoryCoreData = TrackerCategoryCoreData(context: self.context)
+                newCategoryCoreData.title = title
+                newCategoryCoreData.addToTrackers(trackerCoreData)
+            }
+
+            do {
+                try self.context.save()
+            } catch {
+                print("Error saving context: \(error)")
+            }
+        }
+    }
+}
+
+
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

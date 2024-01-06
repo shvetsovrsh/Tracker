@@ -42,19 +42,6 @@ final class TrackerStore: NSObject {
 
 
 extension TrackerStore {
-    private func convertToTrackerCoreData(_ tracker: Tracker) -> TrackerCoreData {
-        let trackerCoreData = TrackerCoreData(context: context)
-        trackerCoreData.id = tracker.id
-        trackerCoreData.name = tracker.name
-        trackerCoreData.color = tracker.color
-        trackerCoreData.emoji = tracker.emoji
-        trackerCoreData.schedule = tracker.schedule as NSObject
-        return trackerCoreData
-    }
-}
-
-
-extension TrackerStore {
     func numberOfSections() -> Int {
         fetchedResultsController.sections?.count ?? 0
     }

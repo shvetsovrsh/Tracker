@@ -591,23 +591,30 @@ extension TrackersViewController: UITextFieldDelegate {
 
 extension TrackersViewController: TrackerCreationViewControllerDelegate {
     func addNewTracker(_ trackerCategory: TrackerCategory) {
-        var newCategories: [TrackerCategory] = []
-
-        if let categoryIndex = categories.firstIndex(where: { $0.title == trackerCategory.title }) {
-            for (index, category) in categories.enumerated() {
-                var trackers = category.trackers
-                if index == categoryIndex {
-                    trackers.append(contentsOf: trackerCategory.trackers)
-                }
-                newCategories.append(TrackerCategory(title: category.title, trackers: trackers))
-            }
+//        var newCategories: [TrackerCategory] = []
+//
+//        if let categoryIndex = categories.firstIndex(where: { $0.title == trackerCategory.title }) {
+//            for (index, category) in categories.enumerated() {
+//                var trackers = category.trackers
+//                if index == categoryIndex {
+//                    trackers.append(contentsOf: trackerCategory.trackers)
+//                }
+//                newCategories.append(TrackerCategory(title: category.title, trackers: trackers))
+//            }
+//        } else {
+//            newCategories = categories
+//            newCategories.append(trackerCategory)
+//            print(newCategories)
+//        }
+//        categories = newCategories
+//        collectionView.reloadData()
+//        reloadVisibleCategories(text: searchTextField.text, date: datePicker.date)
+        if let tracker = trackerCategory.trackers.first {
+            TrackerCategoryStore.shared.addNewTracker(tracker, toCategoryWithTitle: trackerCategory.title)
+            collectionView.reloadData()
+            reloadVisibleCategories(text: searchTextField.text, date: datePicker.date)
         } else {
-            newCategories = categories
-            newCategories.append(trackerCategory)
-            print(newCategories)
+            print("Error: No trackers in category")
         }
-        categories = newCategories
-        collectionView.reloadData()
-        reloadVisibleCategories(text: searchTextField.text, date: datePicker.date)
     }
 }

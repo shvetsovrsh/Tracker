@@ -3,8 +3,19 @@
 //
 
 import UIKit
+import CoreData
 
 final class TrackerConversionService {
+
+    static func convertToTrackerCoreData(_ tracker: Tracker, context: NSManagedObjectContext) -> TrackerCoreData {
+        let trackerCoreData = TrackerCoreData(context: context)
+        trackerCoreData.id = tracker.id
+        trackerCoreData.name = tracker.name
+        trackerCoreData.color = tracker.color
+        trackerCoreData.emoji = tracker.emoji
+        trackerCoreData.schedule = tracker.schedule as NSObject
+        return trackerCoreData
+    }
 
     static func convertToTracker(_ trackerCoreData: TrackerCoreData) throws -> Tracker {
         guard let id = trackerCoreData.id,
