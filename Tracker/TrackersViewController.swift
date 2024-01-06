@@ -395,7 +395,7 @@ final class TrackersViewController: UIViewController {
                 let textCondition = filterText.isEmpty ||
                         tracker.name.lowercased().contains(filterText)
 
-                let dateCondition = tracker.schedule.daysOfWeek.contains(dayOfWeekArray[filterWeekDay])
+                let dateCondition = tracker.schedule.contains(dayOfWeekArray[filterWeekDay])
 
                 return textCondition && dateCondition
             }

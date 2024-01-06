@@ -382,9 +382,7 @@ final class HabitCreationViewController: UIViewController,
                             name: text,
                             color: selectedColor ?? UIColor(named: "YPColorSelection1") ?? .blue,
                             emoji: selectedEmoji ?? "😻️",
-                            schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: daysOfWeekCasted,
-                                    specificDays: []))])
+                            schedule: daysOfWeekCasted)])
             )
             delegateDidClose?.trackerCreationViewControllerDidClose(self)
         }

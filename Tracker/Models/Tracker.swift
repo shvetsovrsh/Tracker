@@ -10,9 +10,9 @@ public struct Tracker {
     let name: String
     let color: UIColor
     let emoji: String
-    let schedule: TrackerSchedule
+    let schedule: [DayOfWeek]
 
-    init(id: UUID, name: String, color: UIColor, emoji: String, schedule: TrackerSchedule) {
+    init(id: UUID, name: String, color: UIColor, emoji: String, schedule: [DayOfWeek]) {
         self.id = id
         self.name = name
         self.color = color

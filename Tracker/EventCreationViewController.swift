@@ -317,9 +317,8 @@ final class EventCreationViewController: UIViewController,
                             name: text,
                             color: selectedColor ?? UIColor(named: "YPColorSelection1") ?? .blue,
                             emoji: selectedEmoji ?? "😻️",
-                            schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
-                                    specificDays: []))])
+                            schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+                    )])
             )
             delegateDidClose?.trackerCreationViewControllerDidClose(self)
         }
