@@ -81,7 +81,7 @@ extension TrackerCategoryStore {
 }
 
 extension TrackerCategoryStore {
-    func addNewTracker(_ tracker: Tracker, toCategoryWithTitle title: String) {
+    func addNewTracker(_ tracker: Tracker, toCategoryWithTitle title: String, completionHandler: @escaping () -> Void) {
         context.perform {
             let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "title == %@", title)
@@ -99,6 +99,9 @@ extension TrackerCategoryStore {
 
             do {
                 try self.context.save()
+                DispatchQueue.main.async {
+                    completionHandler()
+                }
             } catch {
                 print("Error saving context: \(error)")
             }
@@ -115,7 +118,15 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         // Код для реагирования на изменения в контенте (например, завершение обновления таблицы)
+        NotificationCenter.default.post(name: .trackerCategoryStoreDidUpdate, object: nil)
+
     }
 
     // Другие методы делегата для обработки конкретных изменений
 }
+
+
+extension NSNotification.Name {
+    static let trackerCategoryStoreDidUpdate = NSNotification.Name("trackerCategoryStoreDidUpdate")
+}
+
