@@ -3,9 +3,10 @@
 //
 
 import CoreData
+import UIKit
 
 final class TrackerCategoryStore: NSObject {
-
+    static let shared = TrackerCategoryStore()
     private let context: NSManagedObjectContext
 
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
@@ -19,6 +20,14 @@ final class TrackerCategoryStore: NSObject {
         controller.delegate = self
         return controller
     }()
+
+    convenience override init() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Failed to retrieve core data manager")
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        self.init(context: context)
+    }
 
     init(context: NSManagedObjectContext) {
         self.context = context
@@ -45,7 +54,9 @@ extension TrackerCategoryStore {
         let categoryCoreData = fetchedResultsController.object(at: indexPath)
         return try? convertToTrackerCategory(categoryCoreData)
     }
+}
 
+extension TrackerCategoryStore {
     private func convertToTrackerCategory(_ categoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory? {
         guard let title = categoryCoreData.title else {
             throw TrackerError.notFound
@@ -56,6 +67,16 @@ extension TrackerCategoryStore {
         } ?? []
 
         return TrackerCategory(title: title, trackers: trackers)
+    }
+
+    var categories: [TrackerCategory] {
+        guard let categoriesCoreData = fetchedResultsController.fetchedObjects else {
+            return []
+        }
+
+        return categoriesCoreData.compactMap { categoryCoreData in
+            try? convertToTrackerCategory(categoryCoreData)
+        }
     }
 }
 

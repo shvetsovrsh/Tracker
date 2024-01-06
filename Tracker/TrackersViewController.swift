@@ -33,6 +33,10 @@ final class TrackersViewController: UIViewController {
         return button
     }()
 
+    private let trackerStore = TrackerStore.shared
+    private let categoryStore = TrackerCategoryStore.shared
+    private let recordStore = TrackerRecordStore.shared
+    private let dataManager = MockData.shared
 
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
@@ -152,8 +156,6 @@ final class TrackersViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private let dataManager = MockData.shared
-
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -177,7 +179,8 @@ final class TrackersViewController: UIViewController {
     }
 
     private func reloadData() {
-        categories = dataManager.categories
+//        categories = dataManager.categories
+        categories = categoryStore.categories
         dateChanged()
     }
 

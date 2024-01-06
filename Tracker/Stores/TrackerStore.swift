@@ -6,7 +6,7 @@ import CoreData
 import UIKit
 
 final class TrackerStore: NSObject {
-
+    static let shared = TrackerStore()
     private let context: NSManagedObjectContext
 
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
@@ -20,6 +20,14 @@ final class TrackerStore: NSObject {
         controller.delegate = self
         return controller
     }()
+
+    convenience override init() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Failed to retrieve core data manager")
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        self.init(context: context)
+    }
 
     init(context: NSManagedObjectContext) {
         self.context = context
