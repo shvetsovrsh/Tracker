@@ -26,6 +26,8 @@ final class HabitCreationViewController: UIViewController,
     private var emojiCollectionView: SelectableCollectionView?
     private var colorCollectionView: SelectableCollectionView?
 
+    private var selectedEmoji: String?
+    private var selectedColor: UIColor?
 
     private let dataManager = MockData.shared
 
@@ -275,6 +277,7 @@ final class HabitCreationViewController: UIViewController,
                 collectionViewLayout: layout,
                 dataSource: dataSource)
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        collectionView?.selectionDelegate = self
     }
 
     private func setupCollectionView(_ collectionView: SelectableCollectionView) {
@@ -376,11 +379,10 @@ final class HabitCreationViewController: UIViewController,
         if let delegate = delegate {
             delegate.addNewTracker(
                     TrackerCategory(title: category, trackers: [Tracker(id: UUID(),
-                            name: text, color: UIColor(named: "YPColorSelection1") ?? .blue,
-                            emoji: "😻️",
-                            schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: daysOfWeekCasted,
-                                    specificDays: []))])
+                            name: text,
+                            color: selectedColor ?? UIColor(named: "YPColorSelection1") ?? .blue,
+                            emoji: selectedEmoji ?? "😻️",
+                            schedule: daysOfWeekCasted)])
             )
             delegateDidClose?.trackerCreationViewControllerDidClose(self)
         }
@@ -427,6 +429,19 @@ extension HabitCreationViewController: CategoryCreationViewControllerDelegate {
     }
 }
 
+extension HabitCreationViewController: SelectableCollectionViewDelegate {
+    func didSelectItem(_ collectionView: SelectableCollectionView, item: Any) {
+        if collectionView === emojiCollectionView {
+            if let emoji = item as? String {
+                selectedEmoji = emoji
+            }
+        } else if collectionView === colorCollectionView {
+            if let color = item as? UIColor {
+                selectedColor = color
+            }
+        }
+    }
+}
 
 extension UIView {
     func roundCorners(corners: UIRectCorner, radius: CGFloat) {
