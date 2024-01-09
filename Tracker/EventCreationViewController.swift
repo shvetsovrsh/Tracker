@@ -16,9 +16,10 @@ final class EventCreationViewController: UIViewController,
     private var emojiCollectionView: SelectableCollectionView?
     private var colorCollectionView: SelectableCollectionView?
 
-
     private let dataManager = MockData.shared
     private var category: String?
+    private var selectedEmoji: String?
+    private var selectedColor: UIColor?
 
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -219,6 +220,7 @@ final class EventCreationViewController: UIViewController,
                 collectionViewLayout: layout,
                 dataSource: dataSource)
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        collectionView?.selectionDelegate = self
     }
 
     private func setupCollectionView(_ collectionView: SelectableCollectionView) {
@@ -312,11 +314,11 @@ final class EventCreationViewController: UIViewController,
         if let delegate = delegate {
             delegate.addNewTracker(
                     TrackerCategory(title: category, trackers: [Tracker(id: UUID(),
-                            name: text, color: UIColor(named: "YPColorSelection1") ?? .blue,
-                            emoji: "😻️",
-                            schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
-                                    specificDays: []))])
+                            name: text,
+                            color: selectedColor ?? UIColor(named: "YPColorSelection1") ?? .blue,
+                            emoji: selectedEmoji ?? "😻️",
+                            schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+                    )])
             )
             delegateDidClose?.trackerCreationViewControllerDidClose(self)
         }
@@ -329,5 +331,19 @@ extension EventCreationViewController: CategoryCreationViewControllerDelegate {
         self.category = category.title
         tableView.reloadData()
         updateCreateButtonState()
+    }
+}
+
+extension EventCreationViewController: SelectableCollectionViewDelegate {
+    func didSelectItem(_ collectionView: SelectableCollectionView, item: Any) {
+        if collectionView === emojiCollectionView {
+            if let emoji = item as? String {
+                selectedEmoji = emoji
+            }
+        } else if collectionView === colorCollectionView {
+            if let color = item as? UIColor {
+                selectedColor = color
+            }
+        }
     }
 }

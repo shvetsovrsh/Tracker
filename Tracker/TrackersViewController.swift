@@ -33,6 +33,10 @@ final class TrackersViewController: UIViewController {
         return button
     }()
 
+    private let trackerStore = TrackerStore.shared
+    private let categoryStore = TrackerCategoryStore.shared
+    private let recordStore = TrackerRecordStore.shared
+    private let dataManager = MockData.shared
 
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
@@ -152,12 +156,12 @@ final class TrackersViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private let dataManager = MockData.shared
-
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate),
+                name: .trackerCategoryStoreDidUpdate, object: nil)
         reloadData()
         configureView()
         addElements()
@@ -166,6 +170,14 @@ final class TrackersViewController: UIViewController {
         searchTextField.delegate = self
         reloadPlaceholders(for: .noTrackers)
         updateDateLabelTitle(with: Date())
+    }
+
+    @objc private func dataDidUpdate() {
+        reloadData()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     //MARK: - Helpers
@@ -177,7 +189,8 @@ final class TrackersViewController: UIViewController {
     }
 
     private func reloadData() {
-        categories = dataManager.categories
+        categories = categoryStore.categories
+        completedTrackers = recordStore.records
         dateChanged()
     }
 
@@ -395,7 +408,7 @@ final class TrackersViewController: UIViewController {
                 let textCondition = filterText.isEmpty ||
                         tracker.name.lowercased().contains(filterText)
 
-                let dateCondition = tracker.schedule.daysOfWeek.contains(dayOfWeekArray[filterWeekDay])
+                let dateCondition = tracker.schedule.contains(dayOfWeekArray[filterWeekDay])
 
                 return textCondition && dateCondition
             }
@@ -539,18 +552,19 @@ extension TrackersViewController: TrackersViewControllerDelegate {
                 $0.trackerID == tracker.id &&
                         Calendar.current.isDate($0.date, inSameDayAs: currentDate)
             }) {
-                completedTrackers.remove(at: index)
+                let record = completedTrackers.remove(at: index)
+                recordStore.removeRecord(for: record.trackerID, date: record.date)
             } else {
-                let trackerRecord = TrackerRecord(
-                        trackerID: tracker.id, date: currentDate
-                )
+                let trackerRecord = TrackerRecord(trackerID: tracker.id, date: currentDate)
                 completedTrackers.append(trackerRecord)
+                recordStore.addRecord(for: trackerRecord.trackerID, date: trackerRecord.date)
             }
             collectionView.reloadItems(at: [indexPath])
         } else {
             print("Нельзя обновлять счетчик для будущей даты")
         }
     }
+
 }
 
 
@@ -588,23 +602,13 @@ extension TrackersViewController: UITextFieldDelegate {
 
 extension TrackersViewController: TrackerCreationViewControllerDelegate {
     func addNewTracker(_ trackerCategory: TrackerCategory) {
-        var newCategories: [TrackerCategory] = []
-
-        if let categoryIndex = categories.firstIndex(where: { $0.title == trackerCategory.title }) {
-            for (index, category) in categories.enumerated() {
-                var trackers = category.trackers
-                if index == categoryIndex {
-                    trackers.append(contentsOf: trackerCategory.trackers)
-                }
-                newCategories.append(TrackerCategory(title: category.title, trackers: trackers))
+        if let tracker = trackerCategory.trackers.first {
+            TrackerCategoryStore.shared.addNewTracker(tracker, toCategoryWithTitle: trackerCategory.title) { [self] in
+                collectionView.reloadData()
+                reloadVisibleCategories(text: searchTextField.text, date: datePicker.date)
             }
         } else {
-            newCategories = categories
-            newCategories.append(trackerCategory)
-            print(newCategories)
+            print("Error: No trackers in category")
         }
-        categories = newCategories
-        collectionView.reloadData()
-        reloadVisibleCategories(text: searchTextField.text, date: datePicker.date)
     }
 }

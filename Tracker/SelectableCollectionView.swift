@@ -9,11 +9,16 @@ protocol SelectableCollectionDataSource {
     var title: String { get }
 }
 
+protocol SelectableCollectionViewDelegate: AnyObject {
+    func didSelectItem(_ collectionView: SelectableCollectionView, item: Any)
+}
+
 final class SelectableCollectionView: UICollectionView,
         UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    var dataSourceObject: SelectableCollectionDataSource!
-    var selectedItemIndex: IndexPath?
+    private var dataSourceObject: SelectableCollectionDataSource?
+    private var selectedItemIndex: IndexPath?
+    weak var selectionDelegate: SelectableCollectionViewDelegate?
 
 
     init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout,
@@ -33,7 +38,7 @@ final class SelectableCollectionView: UICollectionView,
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        dataSourceObject.items.count
+        dataSourceObject?.items.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -42,14 +47,15 @@ final class SelectableCollectionView: UICollectionView,
             return UICollectionReusableView()
         }
 
-        let titleCategory = dataSourceObject.title
-        view.configureHeader(with: titleCategory)
+        if let titleCategory = dataSourceObject?.title {
+            view.configureHeader(with: titleCategory)
+        }
         return view
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let indexPath = IndexPath(item: 0, section: section)
-        if dataSourceObject.items.count == 0 {
+        if dataSourceObject?.items.count == 0 {
             return CGSize.zero
         }
         return CGSize(width: collectionView.frame.width, height: 46)
@@ -57,7 +63,7 @@ final class SelectableCollectionView: UICollectionView,
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.collectionViewCellIdentifier, for: indexPath)
-        configureCell(cell, with: dataSourceObject.items[indexPath.item], at: indexPath)
+        configureCell(cell, with: dataSourceObject?.items[indexPath.item], at: indexPath)
         return cell
     }
 
@@ -95,6 +101,9 @@ final class SelectableCollectionView: UICollectionView,
                 frameView.tag = 99
                 cell?.contentView.insertSubview(frameView, belowSubview: colorView)
             }
+        }
+        if let selectedItem = dataSourceObject?.items[indexPath.item] {
+            selectionDelegate?.didSelectItem(self, item: selectedItem)
         }
     }
 

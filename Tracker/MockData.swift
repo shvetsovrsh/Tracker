@@ -6,6 +6,7 @@ import Foundation
 import UIKit
 
 //TODO remove this file on next iterations
+
 final class MockData {
     static let shared = MockData()
 
@@ -25,8 +26,8 @@ final class MockData {
     var colorData: CollectionDataSource
 
     private let emojis: [String] = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
-                                       "😇", "😇", "🥶", "🤔", "🙌", "🍔",
-                                       "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
+                                    "😇", "😇", "🥶", "🤔", "🙌", "🍔",
+                                    "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
 
     private let colors: [UIColor] = {
         var colors: [UIColor] = []
@@ -48,9 +49,8 @@ final class MockData {
                 trackers: [
                     Tracker(id: UUID(), name: "Поливать растения",
                             color: UIColor(named: "YPColorSelection5") ?? UIColor.gray, emoji: "❤️",
-                            schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
-                                    specificDays: []))
+                            schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+                    )
                 ]
         )
 
@@ -59,19 +59,13 @@ final class MockData {
                 trackers: [
                     Tracker(id: UUID(), name: "Кошка заслонила камеру на созвоне",
                             color: UIColor(named: "YPColorSelection2") ?? UIColor.gray, emoji: "😻",
-                            schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
-                                    specificDays: [])),
+                            schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]),
                     Tracker(id: UUID(), name: "Бабушка прислала открытку в вотсапе",
                             color: UIColor(named: "YPColorSelection1") ?? UIColor.gray, emoji: "🌺",
-                            schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
-                                    specificDays: [])),
+                            schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]),
                     Tracker(id: UUID(), name: "Свидания в апреле",
                             color: UIColor(named: "YPColorSelection14") ?? UIColor.gray, emoji: "❤️",
-                            schedule: TrackerSchedule(frequency: .daily,
-                                    daysOfWeek: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
-                                    specificDays: []))
+                            schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
                 ]
         )
 
