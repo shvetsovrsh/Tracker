@@ -55,6 +55,16 @@ extension TrackerRecordStore {
         return try? convertToTrackerRecord(recordCoreData)
     }
 
+    var records: [TrackerRecord] {
+        guard let recordsCoreData = fetchedResultsController.fetchedObjects else {
+            return []
+        }
+
+        return recordsCoreData.compactMap { recordCoreData in
+            try? convertToTrackerRecord(recordCoreData)
+        }
+    }
+
     private func convertToTrackerRecord(_ recordCoreData: TrackerRecordCoreData) throws -> TrackerRecord? {
         guard let trackerID = recordCoreData.trackerID,
               let date = recordCoreData.date
@@ -63,6 +73,44 @@ extension TrackerRecordStore {
         }
 
         return TrackerRecord(trackerID: trackerID, date: date)
+    }
+}
+
+
+extension TrackerRecordStore {
+    func addRecord(for trackerID: UUID, date: Date) {
+        let record = TrackerRecordCoreData(context: context)
+
+        let trackerFetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        trackerFetchRequest.predicate = NSPredicate(format: "id == %@", trackerID as CVarArg)
+
+        if let trackerCoreData = (try? context.fetch(trackerFetchRequest))?.first {
+            record.tracker = trackerCoreData
+            record.trackerID = trackerID
+            record.date = date
+
+            saveContext()
+        }
+    }
+
+    func removeRecord(for trackerID: UUID, date: Date) {
+        let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "trackerID == %@ AND date == %@", trackerID as CVarArg, date as NSDate)
+
+        if let result = try? context.fetch(fetchRequest), let recordToDelete = result.first {
+            context.delete(recordToDelete)
+            saveContext()
+        }
+    }
+
+    private func saveContext() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                print("Error saving context: \(error)")
+            }
+        }
     }
 }
 

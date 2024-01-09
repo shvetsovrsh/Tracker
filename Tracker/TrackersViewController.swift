@@ -189,8 +189,8 @@ final class TrackersViewController: UIViewController {
     }
 
     private func reloadData() {
-//        categories = dataManager.categories
         categories = categoryStore.categories
+        completedTrackers = recordStore.records
         dateChanged()
     }
 
@@ -552,18 +552,19 @@ extension TrackersViewController: TrackersViewControllerDelegate {
                 $0.trackerID == tracker.id &&
                         Calendar.current.isDate($0.date, inSameDayAs: currentDate)
             }) {
-                completedTrackers.remove(at: index)
+                let record = completedTrackers.remove(at: index)
+                recordStore.removeRecord(for: record.trackerID, date: record.date)
             } else {
-                let trackerRecord = TrackerRecord(
-                        trackerID: tracker.id, date: currentDate
-                )
+                let trackerRecord = TrackerRecord(trackerID: tracker.id, date: currentDate)
                 completedTrackers.append(trackerRecord)
+                recordStore.addRecord(for: trackerRecord.trackerID, date: trackerRecord.date)
             }
             collectionView.reloadItems(at: [indexPath])
         } else {
             print("Нельзя обновлять счетчик для будущей даты")
         }
     }
+
 }
 
 
