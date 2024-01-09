@@ -13,9 +13,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         let window = UIWindow(windowScene: windowScene)
-        let tabBarViewController = TabBarViewController()
-
-        window.rootViewController = tabBarViewController
+        if UserDefaults.standard.hasSeenOnboarding {
+            window.rootViewController = TabBarViewController()
+        } else {
+            window.rootViewController = OnboardingViewController { [weak window] in
+                window?.rootViewController = TabBarViewController()
+                UserDefaults.standard.hasSeenOnboarding = true
+            }
+        }
 
         self.window = window
         window.makeKeyAndVisible()
