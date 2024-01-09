@@ -31,6 +31,7 @@
 		36D7D78349A6A9FE981BFC3B /* WeekdayMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DCF5B078807150E27AC8 /* WeekdayMask.swift */; };
 		36D7D7AB414BAC1468854E39 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D3717EF6933E55CAB799 /* TrackerRecord.swift */; };
 		36D7D842A0E1F8C20F45021D /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DB25E3084995794DABDB /* TrackersViewController.swift */; };
+		36D7D89488AC09D0693EF313 /* UserDefaultsBacked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DAF93ADAC39509893BEC /* UserDefaultsBacked.swift */; };
 		36D7D8D28339F893D12C22AD /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D697E5611734225EB8AD /* MockData.swift */; };
 		36D7D904A16E3B9D3E7C5A38 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D8B581EB1AE7841645E6 /* OnboardingViewController.swift */; };
 		36D7D9C7E478657A90B46DAA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D4B4A472519F25FD99ED /* OnboardingView.swift */; };
@@ -71,6 +72,7 @@
 		36D7D882113A67159626014D /* DaysValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaysValueTransformer.swift; sourceTree = "<group>"; };
 		36D7D8B581EB1AE7841645E6 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		36D7DA2BE5598DF537E27049 /* TrackerStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
+		36D7DAF93ADAC39509893BEC /* UserDefaultsBacked.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBacked.swift; sourceTree = "<group>"; };
 		36D7DB09F2AF58422242C401 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		36D7DB25E3084995794DABDB /* TrackersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		36D7DBBFF542ECD425FDCD80 /* PlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 			children = (
 				36D7D088855BF7E48A077A4B /* InsetTextField.swift */,
 				36D7DBBFF542ECD425FDCD80 /* PlaceholderView.swift */,
+				36D7DAF93ADAC39509893BEC /* UserDefaultsBacked.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				36D7DCCEC032B2F886805969 /* InsetTextField.swift in Sources */,
 				36D7D009A02701FAE5870BB8 /* CategoryCreationViewController.swift in Sources */,
 				36D7D3963EDE23223CDB1363 /* PlaceholderView.swift in Sources */,
+				36D7D89488AC09D0693EF313 /* UserDefaultsBacked.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

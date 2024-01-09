@@ -13,12 +13,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         let window = UIWindow(windowScene: windowScene)
-        if UserDefaults.standard.hasSeenOnboarding {
+        if UserDefaults.hasSeenOnboarding {
             window.rootViewController = TabBarViewController()
         } else {
             window.rootViewController = OnboardingViewController { [weak window] in
                 window?.rootViewController = TabBarViewController()
-                UserDefaults.standard.hasSeenOnboarding = true
+                UserDefaults.hasSeenOnboarding = true
             }
         }
 

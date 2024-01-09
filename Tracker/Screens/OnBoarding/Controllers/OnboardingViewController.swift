@@ -4,21 +4,6 @@
 
 import UIKit
 
-extension UserDefaults {
-    private enum Keys {
-        static let hasSeenOnboarding = "hasSeenOnboarding"
-    }
-
-    var hasSeenOnboarding: Bool {
-        get {
-            bool(forKey: Keys.hasSeenOnboarding)
-        }
-        set {
-            set(newValue, forKey: Keys.hasSeenOnboarding)
-        }
-    }
-}
-
 
 final class OnboardingViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     var onOnboardingCompleted: (() -> Void)?
