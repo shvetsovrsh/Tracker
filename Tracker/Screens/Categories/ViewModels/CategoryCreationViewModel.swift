@@ -10,6 +10,7 @@ protocol CategoryStorable {
     func numberOfRows(in section: Int) -> Int
     func category(at indexPath: IndexPath) -> TrackerCategory?
     func isEmpty() -> Bool
+    func getSize() -> Int
     func addNewCategory(toCategoryWithTitle title: String, completionHandler: @escaping () -> Void)
 }
 
@@ -26,6 +27,10 @@ final class CategoryCreationViewModel {
 
     func isEmpty() -> Bool {
         categoryStore.isEmpty()
+    }
+
+    func getSize() -> Int {
+        categoryStore.getSize()
     }
 
     func numberOfSections() -> Int {

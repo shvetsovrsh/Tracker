@@ -42,16 +42,21 @@ final class TrackerCategoryStore: NSObject {
 
 
 extension TrackerCategoryStore: CategoryStorable {
-    func isEmpty() -> Bool {
+
+    func getSize() -> Int {
         guard let sections = fetchedResultsController.sections else {
-            return true
+            return 0
         }
 
         let totalObjects = sections.reduce(0) { (result, section) in
             result + section.numberOfObjects
         }
 
-        return totalObjects == 0
+        return totalObjects
+    }
+
+    func isEmpty() -> Bool {
+        getSize() == 0
     }
 
     func numberOfSections() -> Int {

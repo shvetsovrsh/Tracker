@@ -90,7 +90,11 @@ final class MockData: CategoryStorable {
     }
 
     func isEmpty() -> Bool {
-        false
+        categories.isEmpty
+    }
+
+    func getSize() -> Int {
+        categories.count
     }
 
     func addNewCategory(toCategoryWithTitle title: String, completionHandler: @escaping () -> Void) {
