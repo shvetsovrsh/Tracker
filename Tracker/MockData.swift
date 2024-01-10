@@ -7,7 +7,7 @@ import UIKit
 
 //TODO remove this file on next iterations
 
-final class MockData {
+final class MockData: CategoryStorable {
     static let shared = MockData()
 
     struct CollectionDataSource: SelectableCollectionDataSource {
@@ -75,5 +75,34 @@ final class MockData {
             completedTrackers.append(TrackerRecord(trackerID: tracker1, date: Date()))
             completedTrackers.append(TrackerRecord(trackerID: tracker2, date: Date()))
         }
+    }
+
+    func numberOfSections() -> Int {
+        1
+    }
+
+    func numberOfRows(in section: Int) -> Int {
+        categories.count
+    }
+
+    func category(at indexPath: IndexPath) -> TrackerCategory? {
+        categories[indexPath.row]
+    }
+
+    func isEmpty() -> Bool {
+        false
+    }
+
+    func addNewCategory(toCategoryWithTitle title: String, completionHandler: @escaping () -> Void) {
+        if let index = categories.firstIndex(where: { $0.title == title }) {
+            return
+        } else {
+            let trackersCategory = TrackerCategory(
+                    title: title,
+                    trackers: []
+            )
+            categories.append(trackersCategory)
+        }
+        completionHandler()
     }
 }
