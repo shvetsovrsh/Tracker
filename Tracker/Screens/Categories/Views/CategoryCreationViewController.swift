@@ -159,6 +159,8 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
             cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: cell.bounds.width)
         } else {
+            cell.layer.cornerRadius = 0
+            cell.layer.maskedCorners = []
             cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }
 
