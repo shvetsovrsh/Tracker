@@ -57,6 +57,22 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         setupViews()
         setupTableView()
         reloadPlaceholders()
+
+        NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(storeDidUpdate),
+                name: .trackerCategoryStoreDidUpdate,
+                object: nil
+        )
+    }
+
+    @objc private func storeDidUpdate() {
+        tableView.reloadData()
+        reloadPlaceholders()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     private func setupViews() {
@@ -89,13 +105,17 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
     }
 
     @objc private func doneAction() {
-        if let selectedIndex = selectedCategoryIndex,
-           let selectedCategory = dataManager.selectCategory(at: selectedIndex) {
-            delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
+        if selectedCategoryIndex == nil || dataManager.isEmpty() {
+            let newCategoryViewController = NewCategoryViewController()
+            present(newCategoryViewController, animated: true)
+        } else {
+            if let selectedIndex = selectedCategoryIndex,
+               let selectedCategory = dataManager.selectCategory(at: selectedIndex) {
+                delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
+            }
+            dismiss(animated: true, completion: nil)
         }
-        dismiss(animated: true, completion: nil)
     }
-
 
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .plain)

@@ -46,7 +46,12 @@ extension TrackerCategoryStore: CategoryStorable {
         guard let sections = fetchedResultsController.sections else {
             return true
         }
-        return false
+
+        let totalObjects = sections.reduce(0) { (result, section) in
+            result + section.numberOfObjects
+        }
+
+        return totalObjects == 0
     }
 
     func numberOfSections() -> Int {
