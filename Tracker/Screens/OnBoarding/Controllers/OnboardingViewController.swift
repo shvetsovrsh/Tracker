@@ -55,8 +55,15 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
 
         let page = UIViewController()
         page.view.addSubview(onboardingView)
-        onboardingView.frame = page.view.bounds
-        onboardingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        onboardingView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            onboardingView.leadingAnchor.constraint(equalTo: page.view.leadingAnchor),
+            onboardingView.trailingAnchor.constraint(equalTo: page.view.trailingAnchor),
+            onboardingView.topAnchor.constraint(equalTo: page.view.topAnchor),
+            onboardingView.bottomAnchor.constraint(equalTo: page.view.bottomAnchor)
+        ])
 
         return page
     }
