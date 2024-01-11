@@ -6,14 +6,12 @@ import UIKit
 
 final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
 
-//    private let dataManager = CategoryCreationViewModel(categoryStore: MockData.shared)
     private let dataManager = CategoryCreationViewModel(categoryStore: TrackerCategoryStore.shared)
 
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Новая категория"
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -27,7 +25,6 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
         field.font = .systemFont(ofSize: 17, weight: .regular)
         field.layer.masksToBounds = true
         field.layer.cornerRadius = 16
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         field.returnKeyType = .done
         return field
@@ -42,7 +39,6 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
         button.setTitle("Готово", for: .normal)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(doneButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -60,9 +56,12 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
 
     private func setupViews() {
         view.backgroundColor = UIColor(named: "YPWhite")
-        view.addSubview(titleLabel)
-        view.addSubview(nameTextField)
-        view.addSubview(doneButton)
+        [titleLabel,
+         nameTextField,
+         doneButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
 
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),

@@ -14,8 +14,6 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
 
     private let placeholderView = PlaceholderView()
     private var tableView: UITableView = UITableView()
-
-//    private let dataManager = CategoryCreationViewModel(categoryStore: MockData.shared)
     private let dataManager = CategoryCreationViewModel(categoryStore: TrackerCategoryStore.shared)
     private var selectedCategoryIndex: Int?
 

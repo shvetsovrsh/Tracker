@@ -33,7 +33,7 @@
 		36D7D7AB414BAC1468854E39 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D3717EF6933E55CAB799 /* TrackerRecord.swift */; };
 		36D7D842A0E1F8C20F45021D /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DB25E3084995794DABDB /* TrackersViewController.swift */; };
 		36D7D89488AC09D0693EF313 /* UserDefaultsBacked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7DAF93ADAC39509893BEC /* UserDefaultsBacked.swift */; };
-		36D7D8D28339F893D12C22AD /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D697E5611734225EB8AD /* MockData.swift */; };
+		36D7D8D28339F893D12C22AD /* ColorAndEmojiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D697E5611734225EB8AD /* ColorAndEmojiData.swift */; };
 		36D7D904A16E3B9D3E7C5A38 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D8B581EB1AE7841645E6 /* OnboardingViewController.swift */; };
 		36D7D9C7E478657A90B46DAA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D4B4A472519F25FD99ED /* OnboardingView.swift */; };
 		36D7DA09207D8BFB9D986151 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D7D6171174035965B57335 /* GeometricParams.swift */; };
@@ -67,7 +67,7 @@
 		36D7D5C418EA69561B7C9B93 /* TrackerCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerCreationViewController.swift; sourceTree = "<group>"; };
 		36D7D6171174035965B57335 /* GeometricParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
 		36D7D67462F6BB2D7114477C /* CategoryCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCreationViewController.swift; sourceTree = "<group>"; };
-		36D7D697E5611734225EB8AD /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		36D7D697E5611734225EB8AD /* ColorAndEmojiData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorAndEmojiData.swift; sourceTree = "<group>"; };
 		36D7D6C0A386A2BAA36B7547 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36D7D754C1597CFF69D24ECA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		36D7D7C9E05E3D3EEF7F18ED /* StatisticTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticTableViewCell.swift; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 				36D7DFDD3A1164A08DBF1DA7 /* Assets.xcassets */,
 				36D7DC73011949D3A4B87631 /* Info.plist */,
 				36D7DE27375312D227EBDA3B /* Models */,
-				36D7D697E5611734225EB8AD /* MockData.swift */,
+				36D7D697E5611734225EB8AD /* ColorAndEmojiData.swift */,
 				36D7D07A833F031CC662B51E /* CoreData */,
 				36D7DF90ED999F0601ADBBDC /* Screens */,
 				36D7DFA3CB1AF7FFB52F2A00 /* Application */,
@@ -422,7 +422,7 @@
 				36D7D1E99B347515D60BAEF9 /* Tracker.swift in Sources */,
 				36D7D33449841B55732278DA /* TrackerCategory.swift in Sources */,
 				36D7D7AB414BAC1468854E39 /* TrackerRecord.swift in Sources */,
-				36D7D8D28339F893D12C22AD /* MockData.swift in Sources */,
+				36D7D8D28339F893D12C22AD /* ColorAndEmojiData.swift in Sources */,
 				D5ECE8A22B48685D0024DDD7 /* Model.xcdatamodeld in Sources */,
 				36D7DA09207D8BFB9D986151 /* GeometricParams.swift in Sources */,
 				36D7DFA6D6ADB0DACEE69209 /* Constants.swift in Sources */,

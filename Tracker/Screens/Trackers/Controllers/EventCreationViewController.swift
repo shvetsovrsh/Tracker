@@ -16,7 +16,7 @@ final class EventCreationViewController: UIViewController,
     private var emojiCollectionView: SelectableCollectionView?
     private var colorCollectionView: SelectableCollectionView?
 
-    private let dataManager = MockData.shared
+    private let dataManager = ColorAndEmojiData.shared
     private var category: String?
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
