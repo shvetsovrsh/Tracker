@@ -11,8 +11,6 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
 
     private var statistics: [[String: Any]] = []
 
-    private let dataManager = MockData.shared
-
     private let headerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false

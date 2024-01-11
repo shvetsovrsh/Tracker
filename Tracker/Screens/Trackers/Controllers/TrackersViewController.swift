@@ -36,7 +36,6 @@ final class TrackersViewController: UIViewController {
     private let trackerStore = TrackerStore.shared
     private let categoryStore = TrackerCategoryStore.shared
     private let recordStore = TrackerRecordStore.shared
-    private let dataManager = MockData.shared
 
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []

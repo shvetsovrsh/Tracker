@@ -41,7 +41,24 @@ final class TrackerCategoryStore: NSObject {
 }
 
 
-extension TrackerCategoryStore {
+extension TrackerCategoryStore: CategoryStorable {
+
+    func getSize() -> Int {
+        guard let sections = fetchedResultsController.sections else {
+            return 0
+        }
+
+        let totalObjects = sections.reduce(0) { (result, section) in
+            result + section.numberOfObjects
+        }
+
+        return totalObjects
+    }
+
+    func isEmpty() -> Bool {
+        getSize() == 0
+    }
+
     func numberOfSections() -> Int {
         fetchedResultsController.sections?.count ?? 0
     }
@@ -109,6 +126,30 @@ extension TrackerCategoryStore {
     }
 }
 
+
+extension TrackerCategoryStore {
+    func addNewCategory(toCategoryWithTitle title: String, completionHandler: @escaping () -> Void) {
+        context.perform {
+            let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+
+            do {
+                let existingCategories = try self.context.fetch(fetchRequest)
+                if existingCategories.isEmpty {
+                    let newCategoryCoreData = TrackerCategoryCoreData(context: self.context)
+                    newCategoryCoreData.title = title
+                    try self.context.save()
+                }
+
+                DispatchQueue.main.async {
+                    completionHandler()
+                }
+            } catch {
+                print("Error saving context: \(error)")
+            }
+        }
+    }
+}
 
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {

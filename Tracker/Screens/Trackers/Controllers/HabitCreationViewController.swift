@@ -29,7 +29,7 @@ final class HabitCreationViewController: UIViewController,
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
 
-    private let dataManager = MockData.shared
+    private let dataManager = ColorAndEmojiData.shared
 
     var daysOfWeek: [WeekDay] = []
     var daysOfWeekCasted: [DayOfWeek] = []

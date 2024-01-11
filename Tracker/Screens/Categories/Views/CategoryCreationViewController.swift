@@ -14,9 +14,7 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
 
     private let placeholderView = PlaceholderView()
     private var tableView: UITableView = UITableView()
-
-    private var categories: [TrackerCategory] = []
-    private let dataManager = MockData.shared
+    private let dataManager = CategoryCreationViewModel(categoryStore: TrackerCategoryStore.shared)
     private var selectedCategoryIndex: Int?
 
     private let titleLabel: UILabel = {
@@ -38,12 +36,8 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         return button
     }()
 
-    private func reloadData() {
-        categories = dataManager.categories
-    }
-
     private func reloadPlaceholders() {
-        if categories.isEmpty {
+        if dataManager.isEmpty() {
             placeholderView.isHidden = false
             tableView.isHidden = true
             tableView.alpha = 0
@@ -60,8 +54,23 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         super.viewDidLoad()
         setupViews()
         setupTableView()
-        reloadData()
         reloadPlaceholders()
+
+        NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(storeDidUpdate),
+                name: .trackerCategoryStoreDidUpdate,
+                object: nil
+        )
+    }
+
+    @objc private func storeDidUpdate() {
+        tableView.reloadData()
+        reloadPlaceholders()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     private func setupViews() {
@@ -94,11 +103,16 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
     }
 
     @objc private func doneAction() {
-        if let selectedIndex = selectedCategoryIndex {
-            let selectedCategory = categories[selectedIndex]
-            delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
+        if selectedCategoryIndex == nil || dataManager.isEmpty() {
+            let newCategoryViewController = NewCategoryViewController()
+            present(newCategoryViewController, animated: true)
+        } else {
+            if let selectedIndex = selectedCategoryIndex,
+               let selectedCategory = dataManager.selectCategory(at: selectedIndex) {
+                delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
+            }
+            dismiss(animated: true, completion: nil)
         }
-        dismiss(animated: true, completion: nil)
     }
 
     private func setupTableView() {
@@ -123,7 +137,7 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        categories.count
+        dataManager.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -132,10 +146,21 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.categoryCellIdentifier, for: indexPath)
-        let category = categories[indexPath.row]
-        cell.textLabel?.text = category.title
+
+        if let category = dataManager.category(at: indexPath) {
+            cell.textLabel?.text = category.title
+        }
+
         cell.backgroundColor = UIColor(named: "YPBackground")
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        if indexPath.row == dataManager.getSize() - 1 {
+            cell.layer.cornerRadius = 10
+            cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: cell.bounds.width)
+        } else {
+            cell.layer.cornerRadius = 0
+            cell.layer.maskedCorners = []
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
 
         if indexPath.row == selectedCategoryIndex {
             cell.accessoryType = .checkmark
@@ -152,9 +177,11 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         }
         selectedCategoryIndex = indexPath.row
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        let selectedCategory = categories[indexPath.row]
-        delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
         tableView.deselectRow(at: indexPath, animated: true)
+
+        if let selectedCategory = dataManager.category(at: indexPath) {
+            delegate?.categoryCreationViewController(self, didSelectCategory: selectedCategory)
+        }
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
