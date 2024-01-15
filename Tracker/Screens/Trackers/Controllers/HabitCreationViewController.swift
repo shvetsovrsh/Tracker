@@ -23,11 +23,16 @@ final class HabitCreationViewController: UIViewController,
     private var tableViewTopConstraint: NSLayoutConstraint?
     private var tableViewTopConstraintWithCharLimit: NSLayoutConstraint?
 
+    private var nameTextFieldTopConstraint: NSLayoutConstraint?
+    private var nameTextFieldTopConstraintWithStatisticLabel: NSLayoutConstraint?
+
     private var emojiCollectionView: SelectableCollectionView?
     private var colorCollectionView: SelectableCollectionView?
 
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
+
+    var editingTracker: TrackerCategory?
 
     private let dataManager = ColorAndEmojiData.shared
 
@@ -67,6 +72,15 @@ final class HabitCreationViewController: UIViewController,
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor(named: "YPBlack")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private var statisticLabel: UILabel = {
+        var label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        label.textColor = UIColor(named: "YPBlack")
+        label.text = "0 дней"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -235,6 +249,7 @@ final class HabitCreationViewController: UIViewController,
         view.addSubview(scrollView)
         view.addSubview(titleLabel)
 
+        scrollView.addSubview(statisticLabel)
         scrollView.addSubview(nameTextField)
         scrollView.addSubview(charLimitLabel)
         scrollView.addSubview(tableView)
@@ -256,6 +271,71 @@ final class HabitCreationViewController: UIViewController,
         updateCreateButtonState()
         view.backgroundColor = UIColor(named: "YPDefaultWhite")
         nameTextField.delegate = self
+        configureEditingFunctionality()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureProgrammaticallySelection()
+    }
+
+    private func findEmojiIndex(in items: [String], for selectedEmoji: String) -> Int? {
+        guard let selectedEmojiFirstScalar = selectedEmoji.unicodeScalars.first?.value else { return nil }
+        for (index, emoji) in items.enumerated() {
+            if let emojiFirstScalar = emoji.unicodeScalars.first?.value,
+               emojiFirstScalar == selectedEmojiFirstScalar {
+                return index
+            }
+        }
+        return nil
+    }
+
+    private func configureProgrammaticallySelection() {
+        guard let editingTrackerCategory = editingTracker?.title,
+              let editingTrackerData = editingTracker?.trackers.first
+        else { return }
+
+        if let emojiItems = dataManager.emojiData.items as? [String] {
+            let selectedEmoji = editingTrackerData.emoji
+            if let index = findEmojiIndex(in: emojiItems, for: editingTrackerData.emoji) {
+                let indexPath = IndexPath(item: index, section: 0)
+                emojiCollectionView?.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                emojiCollectionView?.collectionView(emojiCollectionView!, didSelectItemAt: indexPath)
+            }
+        }
+
+        if let colorItems = dataManager.colorData.items as? [UIColor],
+           let selectedColorIndex = colorItems.firstIndex(of: editingTrackerData.color) {
+            let indexPath = IndexPath(item: selectedColorIndex, section: 0)
+            colorCollectionView?.selectItem(at: indexPath, animated: false, scrollPosition: [])
+            colorCollectionView?.collectionView(colorCollectionView!, didSelectItemAt: indexPath)
+        }
+    }
+
+    private func configureEditingFunctionality() {
+        guard let editingTrackerCategory = editingTracker?.title,
+              let editingTrackerData = editingTracker?.trackers.first
+        else { return }
+        statisticLabel.isHidden = false
+        let completedDays = 5 // TODO: remove this stub
+        statisticLabel.text = LocalizationHelper.pluralizeDays(for: completedDays)
+        nameTextField.text = editingTrackerData.name
+        category = editingTrackerCategory
+        daysOfWeekCasted = editingTrackerData.schedule
+        titleLabel.text = "Редактирование привычки"
+        createButton.setTitle("Сохранить", for: .normal)
+        updateCreateButtonState()
+        updateLayoutForStatisticLabel()
+    }
+
+    private func updateLayoutForStatisticLabel() {
+        nameTextFieldTopConstraint?.isActive = statisticLabel.isHidden
+        nameTextFieldTopConstraintWithStatisticLabel?.isActive = !statisticLabel.isHidden
+    }
+
+    private func updateLayoutForCharLimitLabel() {
+        tableViewTopConstraint?.isActive = charLimitLabel.isHidden
+        tableViewTopConstraintWithCharLimit?.isActive = !charLimitLabel.isHidden
     }
 
     private func addAndSetupCollectionViews() {
@@ -305,10 +385,17 @@ final class HabitCreationViewController: UIViewController,
         charLimitLabel.isHidden = true
         tableViewTopConstraint = tableView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 24)
         tableViewTopConstraintWithCharLimit = tableView.topAnchor.constraint(equalTo: charLimitLabel.bottomAnchor, constant: 24)
-        tableViewTopConstraint?.isActive = charLimitLabel.isHidden
-        tableViewTopConstraintWithCharLimit?.isActive = !charLimitLabel.isHidden
+        updateLayoutForCharLimitLabel()
+
+        statisticLabel.isHidden = true
+        nameTextFieldTopConstraint = nameTextField.topAnchor.constraint(equalTo: scrollView.topAnchor)
+        nameTextFieldTopConstraintWithStatisticLabel = nameTextField.topAnchor.constraint(equalTo: statisticLabel.bottomAnchor, constant: 40)
+        updateLayoutForStatisticLabel()
 
         NSLayoutConstraint.activate([
+            statisticLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            statisticLabel.topAnchor.constraint(equalTo: scrollView.topAnchor),
+
             charLimitLabel.widthAnchor.constraint(equalToConstant: 286),
             charLimitLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 8),
             charLimitLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
@@ -323,7 +410,6 @@ final class HabitCreationViewController: UIViewController,
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-            nameTextField.topAnchor.constraint(equalTo: scrollView.topAnchor),
             nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             nameTextField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             nameTextField.heightAnchor.constraint(equalToConstant: 75),

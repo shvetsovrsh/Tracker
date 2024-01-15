@@ -108,6 +108,14 @@ final class TrackerCreationViewController: UIViewController,
         let viewController = HabitCreationViewController()
         viewController.delegate = delegate
         viewController.delegateDidClose = self
+        let editingTracker: TrackerCategory = TrackerCategory(title: "Важное",
+                trackers: [Tracker(id: UUID(),
+                        name: "Кошка заслонила и уронила камеру на созвоне",
+                        color: UIColor(named: "YPColorSelection10") ?? .gray,
+                        emoji: "🌺",
+                        schedule: [.monday, .wednesday, .thursday, .friday, .saturday, .sunday]
+                )]) //TODO: get rid of this stub
+        viewController.editingTracker = editingTracker
         present(viewController, animated: true)
     }
 
@@ -115,6 +123,14 @@ final class TrackerCreationViewController: UIViewController,
         let viewController = EventCreationViewController()
         viewController.delegate = delegate
         viewController.delegateDidClose = self
+        let editingTracker: TrackerCategory = TrackerCategory(title: "Важное",
+                trackers: [Tracker(id: UUID(),
+                name: "Кошка заслонила и уронила камеру на созвоне",
+                color: UIColor(named: "YPColorSelection7") ?? .gray,
+                emoji: "😻️",
+                schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+        )]) //TODO: get rid of this stub
+        viewController.editingTracker = editingTracker
         present(viewController, animated: true)
     }
 

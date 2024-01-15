@@ -129,21 +129,6 @@ final class TrackerCell: UICollectionViewCell {
         return image
     }()
 
-    private func pluralizeDays(for days: Int) -> String {
-        let remainder = days % 10
-        if days == 11 || days == 12 || days == 13 || days == 14 {
-            return "\(days) дней"
-        }
-        switch remainder {
-        case 1:
-            return "\(days) день"
-        case 2, 3, 4:
-            return "\(days) дня"
-        default:
-            return "\(days) дней"
-        }
-    }
-
     func configure(for cell: TrackerCell,
                    tracker: Tracker,
                    title: String,
@@ -156,7 +141,7 @@ final class TrackerCell: UICollectionViewCell {
         self.tracker = tracker
         titleLabel.text = title
         emojiLabel.text = emoji
-        statisticLabel.text = pluralizeDays(for: completedDays)
+        statisticLabel.text = LocalizationHelper.pluralizeDays(for: completedDays)
         cardBackgroundView.backgroundColor = color
         completionButton.backgroundColor = color
         self.indexPath = indexPath
