@@ -188,3 +188,44 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
         cell.accessoryType = indexPath.row == selectedCategoryIndex ? .checkmark : .none
     }
 }
+
+extension CategoryCreationViewController {
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+
+        UIContextMenuConfiguration(actionProvider: { actions in
+            UIMenu(children: [
+                UIAction(title: "Редактировать") { [weak self] _ in
+                    self?.editCategory(indexPath: indexPath)
+                },
+                UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                    self?.showDeleteAlert(indexPath: indexPath)
+                },
+            ])
+        })
+    }
+
+    private func editCategory(indexPath: IndexPath) {
+        let editCategoryViewController = NewCategoryViewController()
+        if let category = dataManager.category(at: indexPath) {
+            editCategoryViewController.editingCategory = category
+        }
+        present(editCategoryViewController, animated: true)
+    }
+
+    private func showDeleteAlert(indexPath: IndexPath) {
+        let alertController = UIAlertController(title: nil,
+                message: "Эта категория точно не нужна?", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+            self?.dataManager.removeCategory(at: indexPath) { [self] in
+                self?.tableView.reloadData()
+                self?.reloadPlaceholders()
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+    }
+}

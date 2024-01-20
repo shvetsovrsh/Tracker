@@ -6,6 +6,8 @@ import UIKit
 
 final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
 
+    var editingCategory: TrackerCategory?
+
     private let dataManager = CategoryCreationViewModel(categoryStore: TrackerCategoryStore.shared)
 
     private let titleLabel: UILabel = {
@@ -47,11 +49,21 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         setupViews()
         nameTextField.delegate = self
+        configureEditingFunctionality()
     }
 
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    private func configureEditingFunctionality() {
+        guard let editingCategoryTitle = editingCategory?.title
+        else {
+            return
+        }
+        nameTextField.text = editingCategoryTitle
+        titleLabel.text = "Редактирование категории"
     }
 
     private func setupViews() {
@@ -99,7 +111,11 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
             return
         }
 
-        dataManager.addCategory(withTitle: title, completionHandler: {})
+        if let editingCategory {
+            dataManager.editCategory(for: editingCategory, withTitle: title, completionHandler: {})
+        } else {
+            dataManager.addCategory(withTitle: title, completionHandler: {})
+        }
         dismiss(animated: true, completion: nil)
     }
 }
