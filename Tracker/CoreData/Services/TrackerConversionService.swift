@@ -14,6 +14,10 @@ final class TrackerConversionService {
         trackerCoreData.color = tracker.color
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.schedule = tracker.schedule as NSObject
+        trackerCoreData.isHabit = tracker.isHabit
+        trackerCoreData.isPinned = tracker.isPinned
+        trackerCoreData.completedDays = Int16(tracker.completedDays)
+        trackerCoreData.previousCategory = tracker.previousCategory
         return trackerCoreData
     }
 
@@ -26,7 +30,20 @@ final class TrackerConversionService {
         else {
             throw TrackerError.conversionFailed
         }
+        let isHabit = trackerCoreData.isHabit
+        let isPinned = trackerCoreData.isPinned
+        let completedDays = Int(trackerCoreData.completedDays)
+        let previousCategory = trackerCoreData.previousCategory
 
-        return Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+        return Tracker(id: id,
+                name: name,
+                color: color,
+                emoji: emoji,
+                schedule: schedule,
+                isHabit: isHabit,
+                isPinned: isPinned,
+                completedDays: completedDays,
+                previousCategory: previousCategory
+        )
     }
 }

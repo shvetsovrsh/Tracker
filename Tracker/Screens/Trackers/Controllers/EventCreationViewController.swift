@@ -9,6 +9,7 @@ final class EventCreationViewController: UIViewController,
 
     weak var delegate: TrackerCreationViewControllerDelegate?
     weak var delegateDidClose: TrackerCreationViewControllerDidCloseDelegate?
+    weak var delegateUpdatingTracker: TrackerUpdatingViewControllerDelegate?
 
     private var tableViewTopConstraint: NSLayoutConstraint?
     private var tableViewTopConstraintWithCharLimit: NSLayoutConstraint?
@@ -223,7 +224,9 @@ final class EventCreationViewController: UIViewController,
     }
 
     private func findEmojiIndex(in items: [String], for selectedEmoji: String) -> Int? {
-        guard let selectedEmojiFirstScalar = selectedEmoji.unicodeScalars.first?.value else { return nil }
+        guard let selectedEmojiFirstScalar = selectedEmoji.unicodeScalars.first?.value else {
+            return nil
+        }
         for (index, emoji) in items.enumerated() {
             if let emojiFirstScalar = emoji.unicodeScalars.first?.value,
                emojiFirstScalar == selectedEmojiFirstScalar {
@@ -236,7 +239,9 @@ final class EventCreationViewController: UIViewController,
     private func configureProgrammaticallySelection() {
         guard let editingTrackerCategory = editingTracker?.title,
               let editingTrackerData = editingTracker?.trackers.first
-        else { return }
+        else {
+            return
+        }
 
         if let emojiItems = dataManager.emojiData.items as? [String] {
             let selectedEmoji = editingTrackerData.emoji
@@ -247,20 +252,31 @@ final class EventCreationViewController: UIViewController,
             }
         }
 
-        if let colorItems = dataManager.colorData.items as? [UIColor],
-           let selectedColorIndex = colorItems.firstIndex(of: editingTrackerData.color) {
-            let indexPath = IndexPath(item: selectedColorIndex, section: 0)
-            colorCollectionView?.selectItem(at: indexPath, animated: false, scrollPosition: [])
-            colorCollectionView?.collectionView(colorCollectionView!, didSelectItemAt: indexPath)
+        let dynamicColor = editingTrackerData.color
+        let standardColor = UIColor(cgColor: dynamicColor.cgColor)
+
+        if let colorItems = dataManager.colorData.items as? [UIColor] {
+            if let selectedColorIndex = colorItems.firstIndex(where: { itemColor in
+                let itemComponents = itemColor.cgColor.components
+                let standardComponents = standardColor.cgColor.components
+
+                return itemComponents?.elementsEqual(standardComponents ?? []) ?? false
+            }) {
+                let indexPath = IndexPath(item: selectedColorIndex, section: 0)
+                colorCollectionView?.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                colorCollectionView?.collectionView(colorCollectionView!, didSelectItemAt: indexPath)
+            }
         }
     }
 
     private func configureEditingFunctionality() {
         guard let editingTrackerCategory = editingTracker?.title,
-                let editingTrackerData = editingTracker?.trackers.first
-        else { return }
+              let editingTrackerData = editingTracker?.trackers.first
+        else {
+            return
+        }
         statisticLabel.isHidden = false
-        let completedDays = 5 // TODO: remove this stub
+        let completedDays = editingTrackerData.completedDays
         statisticLabel.text = LocalizationHelper.pluralizeDays(for: completedDays)
         nameTextField.text = editingTrackerData.name
         category = editingTrackerCategory
@@ -345,14 +361,12 @@ final class EventCreationViewController: UIViewController,
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             titleLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 20),
-            titleLabel.widthAnchor.constraint(equalToConstant: 250),
 
             scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-//            nameTextField.topAnchor.constraint(equalTo: statisticLabel.bottomAnchor, constant: 40),
             nameTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             nameTextField.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             nameTextField.heightAnchor.constraint(equalToConstant: 75),
@@ -403,11 +417,33 @@ final class EventCreationViewController: UIViewController,
                             name: text,
                             color: selectedColor ?? UIColor(named: "YPColorSelection1") ?? .blue,
                             emoji: selectedEmoji ?? "😻️",
-                            schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+                            schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
+                            isHabit: false,
+                            isPinned: false,
+                            completedDays: 0,
+                            previousCategory: nil
                     )])
             )
             delegateDidClose?.trackerCreationViewControllerDidClose(self)
         }
+
+        if let delegate = delegateUpdatingTracker,
+           let editingTracker = editingTracker,
+           let editingTrackerData = editingTracker.trackers.first {
+            delegate.updateTracker(
+                    TrackerCategory(title: category, trackers: [Tracker(id: editingTrackerData.id,
+                            name: text,
+                            color: selectedColor ?? UIColor(named: "YPColorSelection1") ?? .blue,
+                            emoji: selectedEmoji ?? "😻️",
+                            schedule: editingTrackerData.schedule,
+                            isHabit: editingTrackerData.isHabit,
+                            isPinned: editingTrackerData.isPinned,
+                            completedDays: editingTrackerData.completedDays,
+                            previousCategory: category
+                    )])
+            )
+        }
+
         dismiss(animated: true)
     }
 }
