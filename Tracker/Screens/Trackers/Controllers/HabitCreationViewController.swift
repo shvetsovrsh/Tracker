@@ -274,7 +274,7 @@ final class HabitCreationViewController: UIViewController,
         configureCollectionView(&colorCollectionView, with: dataManager.colorData)
         addAndSetupCollectionViews()
         updateCreateButtonState()
-        view.backgroundColor = UIColor(named: "YPDefaultWhite")
+        view.backgroundColor = UIColor(named: "YPWhite")
         nameTextField.delegate = self
         configureEditingFunctionality()
     }

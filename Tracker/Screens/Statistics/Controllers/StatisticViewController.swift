@@ -56,6 +56,7 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
         }
 
         cell.selectionStyle = .none
+        cell.backgroundColor = UIColor(named: "YPWhite")
 
         cell.titleLabel.text = statistics[indexPath.section]["title"] as? String
         cell.valueLabel.text = "\(statistics[indexPath.section]["value"] as? Int ?? 0)"
@@ -99,6 +100,7 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
 
     func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
+        tableView.backgroundColor = UIColor(named: "YPWhite")
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.delegate = self

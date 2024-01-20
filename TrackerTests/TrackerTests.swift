@@ -22,6 +22,7 @@ final class TrackerTests: XCTestCase {
                 completedTrackers: [],
                 currentDate: Date()
         )
+        sut?.loadViewIfNeeded()
     }
 
     func testTrackersViewController() {
@@ -30,4 +31,13 @@ final class TrackerTests: XCTestCase {
         assertSnapshot(matching: sut!, as: .image(on: config, size: size))
     }
 
+    func testTrackersViewControllerLight() {
+        let size = CGSize(width: 375, height: 812)
+        assertSnapshot(matching: sut!, as: .image(on: .iPhoneX(.portrait), size: size, traits: .init(userInterfaceStyle: .light)))
+    }
+
+    func testTrackersViewControllerDark() {
+        let size = CGSize(width: 375, height: 812)
+        assertSnapshot(matching: sut!, as: .image(on: .iPhoneX(.portrait), size: size, traits: .init(userInterfaceStyle: .dark)))
+    }
 }

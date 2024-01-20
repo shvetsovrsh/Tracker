@@ -83,7 +83,7 @@ final class TrackerCreationViewController: UIViewController,
         addElements()
         setupView()
 
-        view.backgroundColor = UIColor(named: "YPDefaultWhite")
+        view.backgroundColor = UIColor(named: "YPWhite")
     }
 
     private func setupView() {
