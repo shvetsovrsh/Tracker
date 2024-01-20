@@ -21,7 +21,7 @@ final class ColorAndEmojiData {
     var colorData: CollectionDataSource
 
     private let emojis: [String] = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
-                                    "😇", "😇", "🥶", "🤔", "🙌", "🍔",
+                                    "😇", "😡", "🥶", "🤔", "🙌", "🍔",
                                     "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
 
     private let colors: [UIColor] = {

@@ -12,4 +12,5 @@ enum Constants {
     static let customTableCellIdentifier = "CustomTableViewCell"
     static let gradientCellIdentifier = "GradientCell"
     static let collectionViewCellIdentifier = "CollectionViewCell"
+    static let filterCellIdentifier = "FilterViewCell"
 }
