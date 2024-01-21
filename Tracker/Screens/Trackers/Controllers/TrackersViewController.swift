@@ -38,6 +38,7 @@ final class TrackersViewController: UIViewController {
     private let categoryStore = TrackerCategoryStore.shared
     private let recordStore = TrackerRecordStore.shared
     private let dataManager = FilterData.shared
+    private let analyticsService = AnalyticsService.shared
 
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
@@ -161,6 +162,7 @@ final class TrackersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        analyticsService.reportEvent(screen: "Main", event: .open)
         NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate),
                 name: .trackerCategoryStoreDidUpdate, object: nil)
         reloadData()
@@ -178,6 +180,7 @@ final class TrackersViewController: UIViewController {
     }
 
     deinit {
+        analyticsService.reportEvent(screen: "Main", event: .close)
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -393,6 +396,7 @@ final class TrackersViewController: UIViewController {
     }
 
     @objc private func selectFilter() {
+        analyticsService.reportEvent(screen: "Main", item: .filter, event: .click)
         let filterViewController = FilterViewController()
         filterViewController.delegate = self
         present(filterViewController, animated: true)
@@ -474,6 +478,7 @@ final class TrackersViewController: UIViewController {
     }
 
     @objc private func addTrackerButtonTapped() {
+        analyticsService.reportEvent(screen: "Main", item: .add_track, event: .click)
         let trackerCreationViewController = TrackerCreationViewController(delegate: self)
         let navigationViewController = UINavigationController(rootViewController: trackerCreationViewController)
         present(navigationViewController, animated: true)
@@ -608,10 +613,12 @@ extension TrackersViewController: UICollectionViewDelegate, UICollectionViewData
                     self?.togglePinAction(for: tracker, isPinned: tracker.isPinned)
                 },
                 UIAction(title: "Редактировать") { [weak self] _ in
+                    self?.analyticsService.reportEvent(screen: "Main", item: .edit, event: .click)
                     self?.editAction(for: tracker,
                             with: (categoryTitle != "Закрепленные" ? categoryTitle : previousCategoryTitle) ?? "Важное")
                 },
                 UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                    self?.analyticsService.reportEvent(screen: "Main", item: .delete, event: .click)
                     self?.showDeleteAlert(for: tracker)
                 },
             ])
@@ -672,6 +679,7 @@ extension TrackersViewController: TrackersViewControllerDelegate {
     }
 
     func updateCompletedTrackers(tracker: Tracker, at indexPath: IndexPath) {
+        analyticsService.reportEvent(screen: "Main", item: .track, event: .click)
         let currentDate = datePicker.date
         if currentDate <= Date() {
             if let index = completedTrackers.firstIndex(where: {

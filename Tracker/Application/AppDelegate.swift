@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import YandexMobileMetrica
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
         UIColorValueTransformer.register()
         DaysValueTransformer.register()
+        if let configuration = YMMYandexMetricaConfiguration(apiKey: "de4b8d07-7213-47d2-9371-8603504abb90") {
+            YMMYandexMetrica.activate(with: configuration)
+        }
         return true
     }
 
