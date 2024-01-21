@@ -42,6 +42,7 @@ final class TrackerCreationViewController: UIViewController,
     private var habitButton: UIButton = {
         let button = UIButton()
         button.setTitle("Привычка", for: .normal)
+        button.setTitleColor(UIColor(named: "YPWhite"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.backgroundColor = UIColor(named: "YPBlack")
         button.layer.cornerRadius = 16
@@ -53,6 +54,7 @@ final class TrackerCreationViewController: UIViewController,
     private var eventButton: UIButton = {
         let button = UIButton()
         button.setTitle("Нерегулярное событие", for: .normal)
+        button.setTitleColor(UIColor(named: "YPWhite"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.backgroundColor = UIColor(named: "YPBlack")
         button.layer.cornerRadius = 16

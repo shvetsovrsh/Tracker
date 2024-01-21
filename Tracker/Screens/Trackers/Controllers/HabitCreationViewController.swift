@@ -210,7 +210,7 @@ final class HabitCreationViewController: UIViewController,
     private let createButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(UIColor(named: "YPWhite"), for: .normal)
         button.tintColor = UIColor(named: "YPWhite")
         button.backgroundColor = UIColor(named: "YPGray")
         button.setTitle("Cоздать", for: .normal)
@@ -238,7 +238,7 @@ final class HabitCreationViewController: UIViewController,
         }
 
         createButton.isEnabled = charLimitLabel.isHidden
-        createButton.backgroundColor = charLimitLabel.isHidden ? UIColor.black : UIColor(named: "YPGray")
+        createButton.backgroundColor = charLimitLabel.isHidden ? UIColor(named: "YPBlack") : UIColor(named: "YPGray")
 
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()

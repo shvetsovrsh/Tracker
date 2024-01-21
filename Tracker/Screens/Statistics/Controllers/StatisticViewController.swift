@@ -98,6 +98,12 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
         reloadPlaceholders()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
+        tableView.reloadData()
+    }
+
     func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.backgroundColor = UIColor(named: "YPWhite")

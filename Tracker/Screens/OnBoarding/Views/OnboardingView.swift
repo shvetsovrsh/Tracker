@@ -17,6 +17,7 @@ final class OnboardingView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         label.textColor = UIColor(named: "YPBlack")
+        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center

@@ -28,8 +28,9 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     private let doneButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "YPBlack") ?? .black
+        button.setTitleColor(UIColor(named: "YPWhite"), for: .normal)
         button.setTitle("Готово", for: .normal)
-        button.tintColor = .white
+        button.tintColor = UIColor(named: "YPWhite") ?? .white
         button.layer.cornerRadius = 16
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false

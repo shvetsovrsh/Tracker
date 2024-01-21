@@ -27,6 +27,7 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
     private let startButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "YPBlack") ?? .black
+        button.backgroundColor = .black
         button.setTitle("Вот это технологии!", for: .normal)
         button.tintColor = .white
         button.layer.cornerRadius = 16

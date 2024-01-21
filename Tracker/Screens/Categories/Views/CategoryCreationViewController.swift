@@ -28,6 +28,7 @@ final class CategoryCreationViewController: UIViewController, UITableViewDelegat
     private let doneButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "YPBlack") ?? .black
+        button.setTitleColor(UIColor(named: "YPWhite"), for: .normal)
         button.setTitle("Добавить категорию", for: .normal)
         button.tintColor = .white
         button.layer.cornerRadius = 16
