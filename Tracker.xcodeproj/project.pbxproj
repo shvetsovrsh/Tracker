@@ -58,6 +58,7 @@
 		CC2C1E298CF12C6945508B1A /* Pods_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21581A8006C1BA9240C0A2E2 /* Pods_Tracker.framework */; };
 		D57272D52B5C4E9900AEA354 /* TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57272D42B5C4E9900AEA354 /* TrackerTests.swift */; };
 		D57272DD2B5C509E00AEA354 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = D57272DC2B5C509E00AEA354 /* SnapshotTesting */; };
+		D5E3649A2B5D28D10008E767 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D5E3649C2B5D28D10008E767 /* Localizable.strings */; };
 		D5ECE8A22B48685D0024DDD7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5ECE8A02B48685D0024DDD7 /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -127,6 +128,8 @@
 		88E83BC04A54C153684E1304 /* Pods-Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker.release.xcconfig"; path = "Target Support Files/Pods-Tracker/Pods-Tracker.release.xcconfig"; sourceTree = "<group>"; };
 		D57272D22B5C4E9900AEA354 /* TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D57272D42B5C4E9900AEA354 /* TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTests.swift; sourceTree = "<group>"; };
+		D5E3649B2B5D28D10008E767 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D5E3649D2B5D28DD0008E767 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D5ECE8A12B48685D0024DDD7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		E151E3DC10516D52239CDEA8 /* Pods_TrackerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrackerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2F7C7CA9183F75EAA5F81A /* Pods-Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Tracker/Pods-Tracker.debug.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +184,14 @@
 				36D7DF854373E0D401675DDC /* Storyboards */,
 			);
 			path = Launch;
+			sourceTree = "<group>";
+		};
+		36D7D1C32C95153972A0187F /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				D5E3649C2B5D28D10008E767 /* Localizable.strings */,
+			);
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		36D7D273946CBE35FC38CC6D /* Stores */ = {
@@ -272,6 +283,7 @@
 				36D7DFEC61856BA8F6BFE441 /* Helpers */,
 				36D7DA13EF5B660210F3D9EA /* AppData */,
 				36D7D66E0DC00C760142FAE6 /* Analytics */,
+				36D7D1C32C95153972A0187F /* SupportingFiles */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -470,7 +482,6 @@
 				54D11C541FDC59561CDA66C0 /* Pods-TrackerTests.debug.xcconfig */,
 				79279E9B1E1182612EB91F77 /* Pods-TrackerTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -540,6 +551,7 @@
 				English,
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 36D7D07BE2BA5916A6DF7EB2;
 			packageReferences = (
@@ -562,6 +574,7 @@
 			files = (
 				36D7D34032BA6173129AB428 /* Assets.xcassets in Resources */,
 				36D7D16B2FDF3665BF7281D3 /* LaunchScreen.storyboard in Resources */,
+				D5E3649A2B5D28D10008E767 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,6 +725,18 @@
 			targetProxy = D57272D62B5C4E9900AEA354 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D5E3649C2B5D28D10008E767 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D5E3649B2B5D28D10008E767 /* ru */,
+				D5E3649D2B5D28DD0008E767 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		36D7D33AEBED6D84845D15E7 /* Debug */ = {

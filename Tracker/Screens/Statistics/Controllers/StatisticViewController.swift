@@ -20,7 +20,7 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
 
     private let titleHeader: UILabel = {
         let label = UILabel()
-        label.text = "Статистика"
+        label.text = NSLocalizedString("StatisticViewController.titleHeader", comment: "")
         label.textColor = UIColor(named: "YPBlack")
         label.font = .systemFont(ofSize: 34, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
