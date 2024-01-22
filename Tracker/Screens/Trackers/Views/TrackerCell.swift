@@ -17,7 +17,7 @@ final class TrackerCell: UICollectionViewCell {
     private var isCompletedToday: Bool = false
     private var indexPath: IndexPath?
 
-    private let cardBackgroundView: UIView = {
+     let cardBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
@@ -80,6 +80,7 @@ final class TrackerCell: UICollectionViewCell {
 
         cardBackgroundView.addSubview(titleLabel)
         cardBackgroundView.addSubview(emojiLabel)
+        cardBackgroundView.addSubview(pinImage)
 
         contentView.addSubview(statisticLabel)
         contentView.addSubview(completionButton)
@@ -95,6 +96,9 @@ final class TrackerCell: UICollectionViewCell {
 
             emojiLabel.widthAnchor.constraint(equalToConstant: 24),
             emojiLabel.heightAnchor.constraint(equalToConstant: 24),
+
+            pinImage.centerYAnchor.constraint(equalTo: emojiLabel.centerYAnchor),
+            pinImage.trailingAnchor.constraint(equalTo: cardBackgroundView.trailingAnchor, constant: -4),
 
             titleLabel.leadingAnchor.constraint(equalTo: cardBackgroundView.leadingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: cardBackgroundView.trailingAnchor, constant: -12),
@@ -129,20 +133,13 @@ final class TrackerCell: UICollectionViewCell {
         return image
     }()
 
-    private func pluralizeDays(for days: Int) -> String {
-        let remainder = days % 10
-        if days == 11 || days == 12 || days == 13 || days == 14 {
-            return "\(days) дней"
-        }
-        switch remainder {
-        case 1:
-            return "\(days) день"
-        case 2, 3, 4:
-            return "\(days) дня"
-        default:
-            return "\(days) дней"
-        }
-    }
+    private let pinImage: UIImageView = {
+        let view = UIImageView()
+        let image = UIImage(named: "PinIcon") ?? UIImage()
+        view.image = image
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     func configure(for cell: TrackerCell,
                    tracker: Tracker,
@@ -156,7 +153,8 @@ final class TrackerCell: UICollectionViewCell {
         self.tracker = tracker
         titleLabel.text = title
         emojiLabel.text = emoji
-        statisticLabel.text = pluralizeDays(for: completedDays)
+        pinImage.isHidden = !tracker.isPinned
+        statisticLabel.text = LocalizationHelper.pluralizeDays(for: completedDays)
         cardBackgroundView.backgroundColor = color
         completionButton.backgroundColor = color
         self.indexPath = indexPath

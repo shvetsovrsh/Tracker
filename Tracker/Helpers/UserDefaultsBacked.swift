@@ -21,3 +21,8 @@ extension UserDefaults {
     @UserDefaultsBacked(key: "hasSeenOnboarding", defaultValue: false)
     static var hasSeenOnboarding: Bool
 }
+
+extension UserDefaults {
+    @UserDefaultsBacked(key: "selectedFilter", defaultValue: FilterType.all.rawValue)
+    static var selectedFilter: Int
+}

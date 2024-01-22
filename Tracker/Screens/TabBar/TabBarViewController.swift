@@ -14,7 +14,7 @@ final class TabBarViewController: UITabBarController {
     }
 
     private func setupTabBarAppearance() {
-        tabBar.backgroundColor = UIColor(named: "YPDefaultWhite")
+        tabBar.backgroundColor = UIColor(named: "YPWhite")
         tabBar.barTintColor = UIColor(named: "YPBlue")
         tabBar.tintColor = UIColor(named: "YPBlue")
 
@@ -32,9 +32,11 @@ final class TabBarViewController: UITabBarController {
         )
 
         let statisticsViewController = StatisticViewController()
+        let trackersViewControllerTitle = NSLocalizedString("TabBarViewController.trackersViewController.tabBarItem", comment: "")
+        let statisticsViewControllerTitle = NSLocalizedString("TabBarViewController.statisticsViewController.tabBarItem", comment: "")
 
-        trackersViewController.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(named: "trackersIcon"), tag: 0)
-        statisticsViewController.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(named: "statisticsIcon"), tag: 1)
+        trackersViewController.tabBarItem = UITabBarItem(title: trackersViewControllerTitle, image: UIImage(named: "trackersIcon"), tag: 0)
+        statisticsViewController.tabBarItem = UITabBarItem(title: statisticsViewControllerTitle, image: UIImage(named: "statisticsIcon"), tag: 1)
 
         viewControllers = [trackersViewController, statisticsViewController]
     }

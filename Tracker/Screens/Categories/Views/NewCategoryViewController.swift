@@ -6,6 +6,8 @@ import UIKit
 
 final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
 
+    var editingCategory: TrackerCategory?
+
     private let dataManager = CategoryCreationViewModel(categoryStore: TrackerCategoryStore.shared)
 
     private let titleLabel: UILabel = {
@@ -33,7 +35,7 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
     private let doneButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(UIColor(named: "YPWhite"), for: .normal)
         button.tintColor = UIColor(named: "YPWhite")
         button.backgroundColor = UIColor(named: "YPGray")
         button.setTitle("Готово", for: .normal)
@@ -47,11 +49,21 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         setupViews()
         nameTextField.delegate = self
+        configureEditingFunctionality()
     }
 
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    private func configureEditingFunctionality() {
+        guard let editingCategoryTitle = editingCategory?.title
+        else {
+            return
+        }
+        nameTextField.text = editingCategoryTitle
+        titleLabel.text = "Редактирование категории"
     }
 
     private func setupViews() {
@@ -83,7 +95,7 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, text.count > 0 {
             doneButton.isEnabled = true
-            doneButton.backgroundColor = UIColor.black
+            doneButton.backgroundColor = UIColor(named: "YPBlack")
         } else {
             doneButton.isEnabled = false
             doneButton.backgroundColor = UIColor(named: "YPGray")
@@ -99,7 +111,11 @@ final class NewCategoryViewController: UIViewController, UITextFieldDelegate {
             return
         }
 
-        dataManager.addCategory(withTitle: title, completionHandler: {})
+        if let editingCategory {
+            dataManager.editCategory(for: editingCategory, withTitle: title, completionHandler: {})
+        } else {
+            dataManager.addCategory(withTitle: title, completionHandler: {})
+        }
         dismiss(animated: true, completion: nil)
     }
 }

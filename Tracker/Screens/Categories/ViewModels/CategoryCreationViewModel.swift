@@ -12,7 +12,9 @@ protocol CategoryStorable {
     func isEmpty() -> Bool
     func getSize() -> Int
     func addNewCategory(toCategoryWithTitle title: String, completionHandler: @escaping () -> Void)
-}
+    func removeCategory(withTitle title: String, completionHandler: @escaping () -> Void)
+    func editCategory(for category: TrackerCategory, withTitle title: String, completionHandler: @escaping () -> Void)
+    }
 
 final class CategoryCreationViewModel {
     private let categoryStore: CategoryStorable
@@ -56,11 +58,31 @@ final class CategoryCreationViewModel {
         }
     }
 
+    func editCategory(for category: TrackerCategory, withTitle title: String, completionHandler: @escaping () -> Void) {
+        guard !title.isEmpty else {
+            completionHandler()
+            return
+        }
+        categoryStore.editCategory(for: category, withTitle: title) {
+            completionHandler()
+        }
+    }
+
+    func removeCategory(at indexPath: IndexPath, completionHandler: @escaping () -> Void) {
+        guard let category = category(at: indexPath) else {
+            completionHandler()
+            return
+        }
+
+        categoryStore.removeCategory(withTitle: category.title) {
+            completionHandler()
+        }
+    }
+
     func selectCategory(at index: Int) -> TrackerCategory? {
         guard index >= 0, index < categories.count else {
             return nil
         }
         return categories[index]
     }
-
 }

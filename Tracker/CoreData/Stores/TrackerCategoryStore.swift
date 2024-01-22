@@ -149,6 +149,51 @@ extension TrackerCategoryStore {
             }
         }
     }
+
+    func editCategory(for category: TrackerCategory, withTitle newTitle: String, completionHandler: @escaping () -> Void) {
+        let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "title == %@", category.title)
+
+        do {
+            let results = try context.fetch(request)
+            if let categoryToUpdate = results.first {
+                categoryToUpdate.title = newTitle
+                try context.save()
+            }
+        } catch {
+            print("Error editing category: \(error)")
+        }
+
+        completionHandler()
+    }
+
+    func removeCategory(withTitle title: String, completionHandler: @escaping () -> Void) {
+        let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "title == %@", title)
+
+        do {
+            let results = try context.fetch(request)
+            if let categoryToDelete = results.first {
+                if let trackers = categoryToDelete.trackers?.allObjects as? [TrackerCoreData] {
+                    for tracker in trackers {
+                        if let trackerRecords = tracker.records as? Set<TrackerRecordCoreData> {
+                            for record in trackerRecords {
+                                context.delete(record)
+                            }
+                        }
+                        context.delete(tracker)
+                    }
+                }
+
+                context.delete(categoryToDelete)
+                try context.save()
+            }
+        } catch {
+            print("Error removing category: \(error)")
+        }
+
+        completionHandler()
+    }
 }
 
 

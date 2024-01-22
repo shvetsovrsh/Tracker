@@ -1,0 +1,12 @@
+/****************************************************************************/
+/* Localization file */
+
+"TrackersViewController.titleHeader" = "Трекеры";
+"TrackersViewController.filterButton" = "Фильтры";
+"StatisticViewController.titleHeader" = "Статистика";
+"TabBarViewController.trackersViewController.tabBarItem" = "Трекеры";
+"TabBarViewController.statisticsViewController.tabBarItem" = "Фильтры";
+"LocalizationHelper.days_1" = "день";
+"LocalizationHelper.days_2_4" = "дня";
+"LocalizationHelper.days_11_14" = "дней";
+"LocalizationHelper.days_other" = "дней";

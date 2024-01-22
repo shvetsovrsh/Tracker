@@ -6,6 +6,7 @@ import UIKit
 
 final class StatisticViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    private let trackerRecordStore = TrackerRecordStore.shared
     private let placeholderView = PlaceholderView()
     private var tableView: UITableView = UITableView()
 
@@ -19,7 +20,7 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
 
     private let titleHeader: UILabel = {
         let label = UILabel()
-        label.text = "Статистика"
+        label.text = NSLocalizedString("StatisticViewController.titleHeader", comment: "")
         label.textColor = UIColor(named: "YPBlack")
         label.font = .systemFont(ofSize: 34, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -49,11 +50,13 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.gradientCellIdentifier,
-                for: indexPath) as? StatisticTableViewCell else {
+                for: indexPath) as? StatisticTableViewCell
+        else {
             fatalError("Unable to dequeue StatisticTableViewCell")
         }
 
         cell.selectionStyle = .none
+        cell.backgroundColor = UIColor(named: "YPWhite")
 
         cell.titleLabel.text = statistics[indexPath.section]["title"] as? String
         cell.valueLabel.text = "\(statistics[indexPath.section]["value"] as? Int ?? 0)"
@@ -62,11 +65,12 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
     }
 
     private func reloadData() {
-        // TODO 15 sprint add data core functionality
+        let completedTrackersCount = trackerRecordStore.records.count
+
         statistics = [
             ["title": "Лучший период", "value": 6],
             ["title": "Идеальные дни", "value": 2],
-            ["title": "Трекеров завершено", "value": 5],
+            ["title": "Трекеров завершено", "value" : completedTrackersCount],
             ["title": "Среднее значение", "value": 4]
         ]
     }
@@ -94,8 +98,15 @@ final class StatisticViewController: UIViewController, UITableViewDelegate, UITa
         reloadPlaceholders()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
+        tableView.reloadData()
+    }
+
     func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
+        tableView.backgroundColor = UIColor(named: "YPWhite")
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.delegate = self
